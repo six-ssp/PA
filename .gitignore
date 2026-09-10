@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+node_modules/
+tmp/
+official_problem/
+CUMCM2026Problems.zip
+intermediate/
+results/*.inspect.ndjson

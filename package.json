@@ -1,0 +1,12 @@
+{
+  "name": "cumcm-2026-problem-a",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@oai/artifact-tool": "^2.8.58"
+  },
+  "scripts": {
+    "solve": "python src/run_all.py",
+    "export": "node export_results.mjs"
+  }
+}
