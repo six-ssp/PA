@@ -6,5 +6,6 @@ node_modules/
 tmp/
 official_problem/
 CUMCM2026Problems.zip
-intermediate/
+intermediate/*
+!intermediate/summary.json
 results/*.inspect.ndjson

@@ -12,22 +12,36 @@ from typing import Callable
 
 import numpy as np
 from scipy.integrate import solve_ivp
+from scipy.sparse import lil_matrix
 
 
 @dataclass(frozen=True)
 class Environment:
-    """烘房温度和水分浓度的分段线性插值函数。"""
+    """烘房环境边界：实测区间线性插值，之后使用稳定段均值。"""
 
     time_s: np.ndarray
     temperature_c: np.ndarray
     moisture: np.ndarray
+    stable_temperature_c: float
+    stable_moisture: float
+    stable_start_s: float
+
+    def _interpolate_then_hold_mean(
+        self,
+        t: float | np.ndarray,
+        measured: np.ndarray,
+        stable_value: float,
+    ) -> np.ndarray:
+        """在末次实测以后切换到稳定阶段均值，而非保持末个噪声点。"""
+        time = np.asarray(t, dtype=float)
+        interpolated = np.interp(time, self.time_s, measured)
+        return np.where(time > self.time_s[-1], stable_value, interpolated)
 
     def temperature(self, t: float | np.ndarray) -> np.ndarray:
-        # np.interp 在数据区间外自动保持首/末测量值。
-        return np.interp(t, self.time_s, self.temperature_c)
+        return self._interpolate_then_hold_mean(t, self.temperature_c, self.stable_temperature_c)
 
     def water(self, t: float | np.ndarray) -> np.ndarray:
-        return np.interp(t, self.time_s, self.moisture)
+        return self._interpolate_then_hold_mean(t, self.moisture, self.stable_moisture)
 
 
 @dataclass(frozen=True)
@@ -98,7 +112,17 @@ def load_environment_xlsx(path: str | Path) -> Environment:
         rows.append(current)
 
     data = np.asarray([[float(v) for v in row[:3]] for row in rows[1:] if len(row) >= 3], dtype=float)
-    return Environment(data[:, 0], data[:, 1], data[:, 2])
+    # 题意中的恒温干燥阶段取附件 1 最后 2400 s 的稳定平台平均值。
+    stable_start = float(data[-1, 0] - 2400.0)
+    stable_mask = data[:, 0] >= stable_start
+    return Environment(
+        data[:, 0],
+        data[:, 1],
+        data[:, 2],
+        float(np.mean(data[stable_mask, 1])),
+        float(np.mean(data[stable_mask, 2])),
+        stable_start,
+    )
 
 
 def load_radius_xlsx(path: str | Path) -> tuple[np.ndarray, np.ndarray]:
@@ -161,6 +185,7 @@ def simulate(
     radius: Callable[[float | np.ndarray], np.ndarray] | None = None,
     nodes: int = 161,
     stop_at_dry: bool = False,
+    face_mode: str = "state",
     rtol: float = 2.0e-6,
     atol: float = 2.0e-8,
 ) -> SimulationResult:
@@ -172,6 +197,8 @@ def simulate(
     """
     if nodes < 5:
         raise ValueError("nodes 至少为 5")
+    if face_mode not in {"state", "coefficient_average"}:
+        raise ValueError("face_mode 必须为 state 或 coefficient_average")
     x = np.linspace(0.0, 1.0, nodes)
     dx = x[1] - x[0]
     # 节点控制体的左右边界及无量纲面积积分 int(x dx)。
@@ -183,11 +210,8 @@ def simulate(
     h_heat = 25.0       # W/(m^2 K)
     h_mass = 8.0e-7     # m/s
 
-    def divergence(field: np.ndarray, coeff: np.ndarray, boundary_gradient_flux: float) -> np.ndarray:
+    def divergence(field: np.ndarray, face_coeff: np.ndarray, boundary_gradient_flux: float) -> np.ndarray:
         """计算 (1/x)d(x*coeff*d(field)/dx)/dx 的有限体积离散。"""
-        # k(C)、D(C,T) 是连续状态函数而非分层介质参数。界面中心的二阶近似
-        # 应采用相邻节点系数的算术平均；调和平均会在低含水表层人为放大阻力。
-        face_coeff = 0.5 * (coeff[:-1] + coeff[1:])
         interior_flux = face_coeff * np.diff(field) / dx
         flux_left = np.zeros(nodes)
         flux_right = np.zeros(nodes)
@@ -205,11 +229,22 @@ def simulate(
         k = material.conductivity(water)
         d = material.diffusivity(water, temperature + 273.15)
 
+        if face_mode == "state":
+            # 对连续的非线性状态物性，先插值得到界面状态，再代入经验公式。
+            water_face = 0.5 * (water[:-1] + water[1:])
+            temperature_face_k = 0.5 * (temperature[:-1] + temperature[1:]) + 273.15
+            k_face = material.conductivity(water_face)
+            d_face = material.diffusivity(water_face, temperature_face_k)
+        else:
+            # 仅用于与修改前“节点系数算术平均”离散做一致条件下的对照。
+            k_face = 0.5 * (k[:-1] + k[1:])
+            d_face = 0.5 * (d[:-1] + d[1:])
+
         # Robin 边界在 x 坐标中：k*T_x=R*h*(T_env-T_surface)。
         heat_boundary = radius_now * h_heat * (float(environment.temperature(t)) - temperature[-1])
         mass_boundary = radius_now * h_mass * (float(environment.water(t)) - water[-1])
-        d_temperature = divergence(temperature, k, heat_boundary) / (radius_now**2 * rho * cp)
-        d_water = divergence(water, d, mass_boundary) / radius_now**2
+        d_temperature = divergence(temperature, k_face, heat_boundary) / (radius_now**2 * rho * cp)
+        d_water = divergence(water, d_face, mass_boundary) / radius_now**2
         return np.concatenate((d_temperature, d_water))
 
     initial = np.concatenate((np.full(nodes, 28.0), np.full(nodes, 2.55)))
@@ -224,6 +259,15 @@ def simulate(
         dry_event.direction = -1
         events = dry_event
 
+    # 每个控制体只与本节点和相邻节点的 T、C 耦合。给 BDF 提供这一稀疏结构，
+    # 使 641 节点网格仍可高效构造数值雅可比；它不改变离散方程。
+    jacobian_pattern = lil_matrix((2 * nodes, 2 * nodes), dtype=int)
+    for equation_block in range(2):
+        for i in range(nodes):
+            for j in range(max(0, i - 1), min(nodes, i + 2)):
+                jacobian_pattern[equation_block * nodes + i, j] = 1
+                jacobian_pattern[equation_block * nodes + i, nodes + j] = 1
+
     solution = solve_ivp(
         rhs,
         (0.0, float(end_time_s)),
@@ -234,6 +278,7 @@ def simulate(
         max_step=60.0,
         rtol=rtol,
         atol=atol,
+        jac_sparsity=jacobian_pattern.tocsr(),
     )
     if not solution.success:
         raise RuntimeError(solution.message)
