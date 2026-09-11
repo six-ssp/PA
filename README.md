@@ -11,6 +11,7 @@
 - [问题 3：固定半径条件下烘干结束时间](docs/problem3.md)
 - [问题 4：材料坐标下的半径收缩烘干模型](docs/problem4.md)
 - [数值误差与模型合理性分析](docs/error_and_reasonableness.md)
+- [论文写作思路与章节安排](docs/paper_writing_guide.md)
 
 ## 一、模型假设
 
