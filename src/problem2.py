@@ -23,13 +23,19 @@ class Problem2Output:
 
 def solve_problem2(environment: Environment, *, nodes: int = SHORT_NODES, save: bool = True) -> Problem2Output:
     """求解问题 2；默认写出 ``intermediate/result2.json``。"""
+    # 问题 2 计算前 3 h，物性随温度和含水率动态变化。
     end_time_s = 3.0 * 3600.0
     simulation = simulate(environment, law_problem23(), end_time_s, nodes=nodes)
+
+    # 将内部计算网格上的解转换为官方表格的 1 s 和 0.1 cm 采样格式。
     times_s = np.arange(0.0, end_time_s + 1.0, 1.0)
     temperature_c, moisture = interpolate_fixed_radius(simulation, times_s, OUTPUT_DISTANCES_CM)
+
+    # 输出前执行统一的数值和物理合理性检查。
     check_solution("问题 2", simulation, end_time_s, environment)
 
     if save:
+        # JSON 后续由 export_results.mjs 写入对应 Excel 模板。
         save_payload("result2.json", {
             "time": times_s.astype(int).tolist(),
             "distance": np.round(OUTPUT_DISTANCES_CM, 1).tolist(),
@@ -40,6 +46,7 @@ def solve_problem2(environment: Environment, *, nodes: int = SHORT_NODES, save: 
 
 
 def main() -> None:
+    # 直接执行本文件时，只读取公共输入并计算问题 2。
     environment = load_environment_xlsx(ROOT / "附件1.xlsx")
     print_environment(environment)
     output = solve_problem2(environment)
