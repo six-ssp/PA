@@ -515,7 +515,11 @@ $$
 | 论文内容 | 仓库文件 |
 |---|---|
 | 控制方程、物性和边界 | `src/model.py` |
-| 四问计算和事件时间 | `src/run_all.py` |
+| 问题 1 常物性短时场 | `src/problem1.py` |
+| 问题 2 变物性短时场 | `src/problem2.py` |
+| 问题 3 固定半径事件时间 | `src/problem3.py` |
+| 问题 4 收缩半径事件时间 | `src/problem4.py` |
+| 四问总运行与对照汇总 | `src/run_all.py` |
 | 网格收敛 | `src/convergence.py` |
 | 时间误差和环境敏感性 | `src/analyze_errors.py` |
 | 正式图表 | `src/generate_figures.py`、`figures/` |

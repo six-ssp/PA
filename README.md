@@ -193,8 +193,13 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 ```text
 src/model.py                 控制方程、物性、有限体积离散和 BDF 求解
+src/problem1.py              独立求解问题 1，输出 result1.json
+src/problem2.py              独立求解问题 2，输出 result2.json
+src/problem3.py              独立求解问题 3，输出 result3.json
+src/problem4.py              独立求解问题 4，输出 result4.json
+src/problem_utils.py         四问共用的输出、半径读取和合理性检查
 src/convergence.py           81/161/321/641 节点网格无关性分析
-src/run_all.py               四问、两遍求解、对照实验和自动检查
+src/run_all.py               四问总入口、收敛分析、对照实验和摘要汇总
 export_results.mjs           将中间结果写入官方 Excel 模板
 intermediate/summary.json    连续事件时刻、对照结果和诊断摘要
 results/grid_convergence.csv 网格收敛数据
@@ -210,6 +215,17 @@ figures/                       正式数据图及可编辑矢量版本
 python -m pip install -r requirements.txt
 python src/run_all.py
 ```
+
+也可以只运行某一问；每个入口只更新该问对应的中间结果：
+
+```powershell
+python src/problem1.py
+python src/problem2.py
+python src/problem3.py
+python src/problem4.py
+```
+
+四个分题文件调用同一份 `src/model.py`，因此没有复制控制方程或改变模型。问题 3、4 在各自文件中仍保留“事件定位 + 规则 60 s 输出”的两遍求解逻辑。
 
 导出 Excel（需要 Node.js 和 `@oai/artifact-tool`）：
 
