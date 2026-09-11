@@ -186,6 +186,7 @@ def simulate(
     nodes: int = 161,
     stop_at_dry: bool = False,
     face_mode: str = "state",
+    max_step_s: float = 60.0,
     rtol: float = 2.0e-6,
     atol: float = 2.0e-8,
 ) -> SimulationResult:
@@ -199,6 +200,8 @@ def simulate(
         raise ValueError("nodes 至少为 5")
     if face_mode not in {"state", "coefficient_average"}:
         raise ValueError("face_mode 必须为 state 或 coefficient_average")
+    if max_step_s <= 0.0:
+        raise ValueError("max_step_s 必须为正数")
     x = np.linspace(0.0, 1.0, nodes)
     dx = x[1] - x[0]
     # 节点控制体的左右边界及无量纲面积积分 int(x dx)。
@@ -275,7 +278,7 @@ def simulate(
         method="BDF",
         dense_output=True,
         events=events,
-        max_step=60.0,
+        max_step=max_step_s,
         rtol=rtol,
         atol=atol,
         jac_sparsity=jacobian_pattern.tocsr(),

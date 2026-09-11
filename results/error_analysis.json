@@ -1,0 +1,78 @@
+{
+  "analysis_nodes": 321,
+  "spatial": {
+    "nodes": [
+      81,
+      161,
+      321,
+      641
+    ],
+    "problem3_time_h": [
+      57.648612065,
+      57.537932455,
+      57.49549929,
+      57.480707109
+    ],
+    "problem4_time_h": [
+      51.126092336,
+      51.102741215,
+      51.095162346,
+      51.092978996
+    ],
+    "problem3_abs_error_vs_641_s": [
+      604.4578416000036,
+      206.01124560000983,
+      53.251851599989664,
+      0.0
+    ],
+    "problem4_abs_error_vs_641_s": [
+      119.20802399999957,
+      35.14398840000865,
+      7.860060000010094,
+      0.0
+    ],
+    "problem3_richardson": {
+      "observed_order": 1.5203575071536637,
+      "extrapolated_time_h": 57.47279101532054,
+      "estimated_641_error_s": 28.497937246063998
+    },
+    "problem4_richardson": {
+      "observed_order": 1.7954391512260572,
+      "extrapolated_time_h": 51.09209548187976,
+      "estimated_641_error_s": 3.1806508328628524
+    }
+  },
+  "temporal": {
+    "problem3": {
+      "max_step_120s_time_h": 57.49549154065547,
+      "max_step_60s_time_h": 57.49549929022373,
+      "max_step_30s_time_h": 57.49549733485249,
+      "max_step_60s_error_vs_30s_s": 0.007039336460934464,
+      "max_step_120s_error_vs_30s_s": 0.020859109255866315
+    },
+    "problem4": {
+      "max_step_120s_time_h": 51.095133528742146,
+      "max_step_60s_time_h": 51.09516234615482,
+      "max_step_30s_time_h": 51.09517974452266,
+      "max_step_60s_error_vs_30s_s": 0.06263412421674275,
+      "max_step_120s_error_vs_30s_s": 0.16637680985240877
+    }
+  },
+  "environment_sensitivity": {
+    "stable_temperature_std_c": 0.1574620240705365,
+    "stable_moisture_std_kg_per_kg": 0.00013965986556194461,
+    "note": "mean±one sample standard deviation envelope; deterministic sensitivity, not confidence interval",
+    "problem3": {
+      "favorable_time_h": 57.206312278468616,
+      "baseline_time_h": 57.49549929,
+      "adverse_time_h": 57.78669574080157,
+      "half_range_s": 1044.6902321993164
+    },
+    "problem4": {
+      "favorable_time_h": 50.84078489480857,
+      "baseline_time_h": 51.095162346,
+      "adverse_time_h": 51.35131633835698,
+      "half_range_s": 918.9565983871362
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "initial_temperature_max_abs_error_c": 0.0,
+  "initial_moisture_max_abs_error": 0.0,
+  "all_required_field_values_finite": true,
+  "problem4_expected_outside_blank_count": 23165,
+  "minimum_moisture": 0.0526,
+  "problem1_temperature_range_c": [
+    28.0,
+    36.7852
+  ],
+  "problem2_temperature_range_c": [
+    28.0,
+    49.9665
+  ],
+  "problem3_center_ge_surface": true,
+  "problem4_center_ge_surface": true,
+  "problem3_center_nonincreasing_after_4h": true,
+  "problem4_center_nonincreasing_after_4h": true,
+  "problem3_last_regular_center_moisture": 0.15,
+  "problem4_last_regular_center_moisture": 0.15
+}

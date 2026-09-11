@@ -10,6 +10,7 @@
 - [问题 2：变物性条件下 3 小时温度场与水分场](docs/problem2.md)
 - [问题 3：固定半径条件下烘干结束时间](docs/problem3.md)
 - [问题 4：材料坐标下的半径收缩烘干模型](docs/problem4.md)
+- [数值误差与模型合理性分析](docs/error_and_reasonableness.md)
 
 ## 一、模型假设
 
@@ -163,7 +164,31 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 由 `(t_fixed-t_shrink)/t_fixed` 得到纯几何收缩对应的时间降幅为 **60.653334%**。该结论只比较同一套附录 4 物性，不混入问题 3 与问题 4 的物性差异。
 
-## 五、仓库结构与运行
+## 五、数据图与诊断图
+
+### 短时径向温度—水分剖面
+
+![短时径向温度与水分剖面](figures/01_short_term_radial_profiles.png)
+
+### 长时干燥与收缩效应对比
+
+![长时干燥多尺度对比](figures/02_long_term_drying_comparison.png)
+
+### 含水率时空场与收缩边界
+
+![含水率时空演化](figures/03_spatiotemporal_moisture_fields.png)
+
+### 网格收敛与离散误差
+
+![网格收敛与空间误差](figures/04_grid_convergence_and_error.png)
+
+### 环境稳定性与物理解诊断
+
+![合理性与敏感性分析](figures/05_reasonableness_and_sensitivity.png)
+
+每张图同时提供 PNG 和可编辑 SVG 版本。详细误差公式、数值表和适用边界见 [数值误差与模型合理性分析](docs/error_and_reasonableness.md)。
+
+## 六、仓库结构与运行
 
 ```text
 src/model.py                 控制方程、物性、有限体积离散和 BDF 求解
@@ -173,6 +198,9 @@ export_results.mjs           将中间结果写入官方 Excel 模板
 intermediate/summary.json    连续事件时刻、对照结果和诊断摘要
 results/grid_convergence.csv 网格收敛数据
 results/result1~result4.xlsx 官方格式结果文件
+src/analyze_errors.py          空间、时间误差与环境敏感性分析
+src/generate_figures.py        生成论文级 PNG/SVG 多面板图
+figures/                       正式数据图及可编辑矢量版本
 ```
 
 运行完整数值流程：
@@ -187,6 +215,13 @@ python src/run_all.py
 ```powershell
 npm install
 npm run export
+```
+
+生成误差分析与论文数据图：
+
+```powershell
+python src/analyze_errors.py
+python src/generate_figures.py
 ```
 
 `python src/run_all.py` 会在控制台打印稳定环境均值、四档网格结果、最终时长和收缩对照，并生成所有 `intermediate/*.json` 与 `results/grid_convergence.csv`。Excel 导出只消费这些中间结果，避免人工抄写造成不一致。
