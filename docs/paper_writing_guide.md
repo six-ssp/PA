@@ -432,7 +432,19 @@ $$
 
 明确说明这是确定性敏感性范围，不是统计置信区间。
 
-### 15.4 物理合理性
+### 15.4 参数敏感度
+
+温度以 $0.5\ ^\circ\mathrm C$ 间隔扫描 $\pm3\ ^\circ\mathrm C$，其余比例参数以 2.5% 间隔扫描 $0.8\sim1.2$ 倍，共得到 196 条记录。重点报告：
+
+- 稳定温度升高 $1\ ^\circ\mathrm C$，问题 3、4 的结束时间分别缩短约 1.83 h、1.60 h；
+- 半径局部弹性分别约为 1.88、1.81；
+- 扩散系数局部弹性均约为 -0.89；
+- 前期边界时间尺度和稳定环境含水率影响较弱；
+- 轴向长度敏感度为 0 是忽略端部效应后的模型结构结论，不应外推到短圆柱。
+
+详细定义、完整表格和图 6 见 `docs/sensitivity_analysis.md`。
+
+### 15.5 物理合理性
 
 逐项说明：
 
@@ -522,7 +534,9 @@ $$
 | 四问总运行与对照汇总 | `src/run_all.py` |
 | 网格收敛 | `src/convergence.py` |
 | 时间误差和环境敏感性 | `src/analyze_errors.py` |
+| 参数敏感度 | `src/sensitivity_analysis.py`、`docs/sensitivity_analysis.md` |
 | 正式图表 | `src/generate_figures.py`、`figures/` |
+| 全部分析与图表统一更新 | `src/run_analysis.py` |
 | 四问详细推导 | `docs/problem1.md`~`docs/problem4.md` |
 | 误差与合理性 | `docs/error_and_reasonableness.md` |
 | 精确摘要数据 | `intermediate/summary.json` |

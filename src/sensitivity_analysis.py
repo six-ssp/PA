@@ -9,7 +9,6 @@ from __future__ import annotations
 import csv
 import json
 from dataclasses import replace
-from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -23,8 +22,9 @@ RESULTS = ROOT / "results"
 FIGURES = ROOT / "figures"
 ANALYSIS_NODES = 321
 
-TEMPERATURE_OFFSETS_C = np.array([-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0])
-SCALE_FACTORS = np.array([0.8, 0.9, 1.0, 1.1, 1.2])
+# 温度每 0.5 °C 取一点；比例参数每 2.5% 取一点，兼顾曲线平滑和计算时间。
+TEMPERATURE_OFFSETS_C = np.linspace(-3.0, 3.0, 13)
+SCALE_FACTORS = np.round(np.linspace(0.8, 1.2, 17), 3)
 
 PARAMETER_LABELS = {
     "stable_temperature": "稳定温度",
@@ -262,6 +262,9 @@ def save_outputs(rows: list[dict], baseline: dict[str, float], sensitivity: dict
     payload = {
         "method": "deterministic one-at-a-time sensitivity around the baseline",
         "analysis_nodes": ANALYSIS_NODES,
+        "sweep_row_count": len(rows),
+        "temperature_offset_points": TEMPERATURE_OFFSETS_C.tolist(),
+        "scale_factor_points": SCALE_FACTORS.tolist(),
         "baseline_drying_time_h": baseline,
         "temperature_standard_perturbation": "stable-stage boundary temperature ±2 degC",
         "other_standard_perturbation": "parameter scale ±10%",
@@ -270,6 +273,25 @@ def save_outputs(rows: list[dict], baseline: dict[str, float], sensitivity: dict
     }
     with (RESULTS / "sensitivity_summary.json").open("w", encoding="utf-8", newline="\n") as handle:
         json.dump(payload, handle, ensure_ascii=False, indent=2)
+
+
+def load_saved_outputs() -> tuple[list[dict], dict[str, dict]]:
+    """读取已有扫描结果，用于只调整图形而不重复数值求解。"""
+    csv_path = RESULTS / "sensitivity_sweep.csv"
+    summary_path = RESULTS / "sensitivity_summary.json"
+    if not csv_path.exists() or not summary_path.exists():
+        raise FileNotFoundError("缺少敏感度结果，请先不带 --plot-only 运行完整分析")
+    with csv_path.open(encoding="utf-8-sig") as handle:
+        rows = list(csv.DictReader(handle))
+    for row in rows:
+        row["value"] = float(row["value"])
+        row["drying_time_h"] = float(row["drying_time_h"])
+        row["change_from_baseline_percent"] = float(row["change_from_baseline_percent"])
+    with summary_path.open(encoding="utf-8") as handle:
+        summary = json.load(handle)
+    if len(rows) != int(summary["sweep_row_count"]):
+        raise RuntimeError("敏感度 CSV 与摘要记录数不一致，请重新运行完整分析")
+    return rows, summary["local_sensitivity"]
 
 
 def clean_axis(axis: plt.Axes, *, grid: bool = True) -> None:
@@ -281,15 +303,15 @@ def clean_axis(axis: plt.Axes, *, grid: bool = True) -> None:
 
 def panel_label(axis: plt.Axes, label: str) -> None:
     axis.text(
-        -0.10, 1.05, label, transform=axis.transAxes,
-        fontsize=12, fontweight="bold", color=COLORS["navy"], va="bottom",
+        0.0, 1.03, label, transform=axis.transAxes,
+        fontsize=11.5, fontweight="bold", color=COLORS["navy"], va="bottom",
     )
 
 
 def plot_sensitivity(rows: list[dict], sensitivity: dict) -> None:
-    """绘制温度、半径、多参数响应曲线与局部敏感度热图。"""
+    """绘制六个互不遮挡的参数响应与局部敏感度面板。"""
     configure_style()
-    figure, axes = plt.subplots(2, 2, figsize=(13.4, 9.0), constrained_layout=True)
+    figure, axes = plt.subplots(3, 2, figsize=(14.2, 13.0), constrained_layout=True)
 
     for problem, color, marker, label in (
         ("problem3", COLORS["blue"], "o", "问题 3"),
@@ -299,13 +321,13 @@ def plot_sensitivity(rows: list[dict], sensitivity: dict) -> None:
         axes[0, 0].plot(
             [row["value"] for row in temperature],
             [row["drying_time_h"] for row in temperature],
-            color=color, marker=marker, label=label,
+            color=color, marker=marker, markersize=4.2, markevery=2, label=label,
         )
         radius = subset(rows, problem, "radius_scale")
         axes[0, 1].plot(
             [100.0 * (row["value"] - 1.0) for row in radius],
             [row["drying_time_h"] for row in radius],
-            color=color, marker=marker, label=label,
+            color=color, marker=marker, markersize=4.2, markevery=2, label=label,
         )
 
     axes[0, 0].axvline(0.0, color=COLORS["muted"], linestyle="--", linewidth=1.1)
@@ -326,71 +348,110 @@ def plot_sensitivity(rows: list[dict], sensitivity: dict) -> None:
     axes[0, 1].legend()
     clean_axis(axes[0, 1])
 
-    # 扩散系数影响较大，主坐标单独显示；低敏感的边界因素放进插图，避免被压扁。
+    # 扩散系数与低敏感边界量分开成图，避免数量级差异压扁曲线。
     for problem, linestyle, marker in (("problem3", "-", "o"), ("problem4", "--", "s")):
         records = subset(rows, problem, "diffusivity_scale")
         axes[1, 0].plot(
             [100.0 * (row["value"] - 1.0) for row in records],
             [row["change_from_baseline_percent"] for row in records],
-            color=COLORS["red"], linestyle=linestyle, marker=marker, markersize=4,
+            color=COLORS["red"] if problem == "problem3" else COLORS["purple"],
+            linestyle=linestyle, marker=marker, markersize=4, markevery=2,
             label=f"扩散系数 · {'问题3' if problem == 'problem3' else '问题4'}",
         )
     axes[1, 0].axhline(0.0, color=COLORS["muted"], linewidth=1.0)
     axes[1, 0].axvline(0.0, color=COLORS["muted"], linestyle="--", linewidth=1.0)
     axes[1, 0].set(
-        title="扩散系数与低敏感边界参数的相对响应",
+        title="扩散系数对结束时间的影响",
         xlabel="参数尺度变化 / %",
         ylabel="结束时间变化 / %",
     )
-    axes[1, 0].legend(loc="upper right")
+    axes[1, 0].legend(loc="upper right", ncol=2)
     clean_axis(axes[1, 0])
 
-    inset = axes[1, 0].inset_axes([0.11, 0.10, 0.44, 0.38])
     for parameter, color, label in (
         ("boundary_time_scale", COLORS["purple"], "时间尺度"),
         ("stable_moisture_scale", COLORS["teal"], "环境含水率"),
     ):
-        for problem, linestyle in (("problem3", "-"), ("problem4", "--")):
+        for problem, linestyle, marker in (("problem3", "-", "o"), ("problem4", "--", "s")):
             records = subset(rows, problem, parameter)
-            inset.plot(
+            axes[1, 1].plot(
                 [100.0 * (row["value"] - 1.0) for row in records],
                 [row["change_from_baseline_percent"] for row in records],
-                color=color, linestyle=linestyle, linewidth=1.35,
-                label=f"{label}·{'Q3' if problem == 'problem3' else 'Q4'}",
+                color=color, linestyle=linestyle, marker=marker,
+                linewidth=1.8, markersize=3.5, markevery=2,
+                label=f"{label} · {'问题3' if problem == 'problem3' else '问题4'}",
             )
-    inset.axhline(0.0, color=COLORS["muted"], linewidth=0.7)
-    inset.set_title("边界参数放大视图", fontsize=7.5)
-    inset.set_xlim(-20.5, 20.5)
-    inset.set_ylim(-0.65, 0.75)
-    inset.tick_params(labelsize=6.5)
-    inset.grid(True, color=COLORS["grid"], linewidth=0.45)
-    inset.legend(fontsize=5.9, ncol=2, loc="upper left")
+    axes[1, 1].axhline(0.0, color=COLORS["muted"], linewidth=1.0)
+    axes[1, 1].axvline(0.0, color=COLORS["muted"], linestyle="--", linewidth=1.0)
+    axes[1, 1].set(
+        title="边界历程与环境含水率的放大比较",
+        xlabel="参数尺度变化 / %",
+        ylabel="结束时间变化 / %",
+        ylim=(-0.65, 0.75),
+    )
+    axes[1, 1].legend(loc="upper left", ncol=2)
+    clean_axis(axes[1, 1])
 
-    parameter_order = list(PARAMETER_LABELS)
+    # 标准扰动区间直接展示非线性和正负扰动的不对称性。
+    sensitivity_order = [
+        "stable_temperature", "radius_scale", "diffusivity_scale",
+        "stable_moisture_scale", "boundary_time_scale", "axial_length_scale",
+    ]
+    y = np.arange(len(sensitivity_order))
+    for problem, offset, color, label in (
+        ("problem3", -0.13, COLORS["blue"], "问题 3"),
+        ("problem4", 0.13, COLORS["orange"], "问题 4"),
+    ):
+        low = np.array([
+            sensitivity[problem][parameter]["standard_low_change_percent"]
+            for parameter in sensitivity_order
+        ])
+        high = np.array([
+            sensitivity[problem][parameter]["standard_high_change_percent"]
+            for parameter in sensitivity_order
+        ])
+        axes[2, 0].hlines(y + offset, np.minimum(low, high), np.maximum(low, high), color=color, linewidth=2.7)
+        axes[2, 0].scatter(low, y + offset, color="white", edgecolor=color, s=38, linewidth=1.5, zorder=3)
+        axes[2, 0].scatter(high, y + offset, color=color, edgecolor="white", s=42, linewidth=0.8, zorder=3, label=label)
+    axes[2, 0].axvline(0.0, color=COLORS["muted"], linewidth=1.0)
+    axes[2, 0].set_yticks(y, [PARAMETER_LABELS[parameter] for parameter in sensitivity_order])
+    axes[2, 0].invert_yaxis()
+    axes[2, 0].set(
+        title="标准扰动下的结束时间变化区间",
+        xlabel="相对基准变化 / %",
+    )
+    axes[2, 0].text(
+        0.01, -0.16, "温度：±2 °C；其余参数：±10%（空心点为低输入，实心点为高输入）",
+        transform=axes[2, 0].transAxes, fontsize=8, color=COLORS["muted"], va="top",
+    )
+    axes[2, 0].legend(loc="lower right", ncol=2)
+    clean_axis(axes[2, 0])
+
+    parameter_order = sensitivity_order
     matrix = np.array([
-        [sensitivity[problem][parameter]["dimensionless_elasticity"] for parameter in parameter_order]
-        for problem in ("problem3", "problem4")
+        [sensitivity[problem][parameter]["dimensionless_elasticity"] for problem in ("problem3", "problem4")]
+        for parameter in parameter_order
     ])
     limit = max(1.0, float(np.max(np.abs(matrix))))
-    image = axes[1, 1].imshow(matrix, cmap="RdBu_r", vmin=-limit, vmax=limit, aspect="auto")
-    axes[1, 1].set_xticks(np.arange(len(parameter_order)), [PARAMETER_LABELS[p] for p in parameter_order], rotation=27, ha="right")
-    axes[1, 1].set_yticks([0, 1], ["问题 3", "问题 4"])
-    axes[1, 1].set_title("基准点无量纲局部敏感度")
+    image = axes[2, 1].imshow(matrix, cmap="RdBu_r", vmin=-limit, vmax=limit, aspect="auto")
+    axes[2, 1].set_xticks([0, 1], ["问题 3", "问题 4"])
+    axes[2, 1].set_yticks(np.arange(len(parameter_order)), [PARAMETER_LABELS[p] for p in parameter_order])
+    axes[2, 1].set_title("基准点无量纲局部敏感度")
     for row_index in range(matrix.shape[0]):
         for column_index in range(matrix.shape[1]):
             value = matrix[row_index, column_index]
-            axes[1, 1].text(
+            axes[2, 1].text(
                 column_index, row_index, f"{value:+.2f}",
                 ha="center", va="center",
                 color="white" if abs(value) > 0.55 * limit else COLORS["ink"],
                 fontweight="bold", fontsize=8.5,
             )
-    colorbar = figure.colorbar(image, ax=axes[1, 1], shrink=0.86, pad=0.025)
+    colorbar = figure.colorbar(image, ax=axes[2, 1], shrink=0.88, pad=0.025)
     colorbar.set_label("弹性：输入变化 1% 引起的时间变化 %")
 
-    for letter, axis in zip("ABCD", axes.flat):
+    for letter, axis in zip("ABCDEF", axes.flat):
         panel_label(axis, letter)
-    figure.suptitle("烘干结束时间的单因素敏感度分析", fontsize=16, fontweight="bold", color=COLORS["navy"])
+    figure.suptitle("烘干结束时间的单因素敏感度分析", fontsize=15.5, fontweight="bold", color=COLORS["navy"])
 
     FIGURES.mkdir(parents=True, exist_ok=True)
     figure.savefig(FIGURES / "06_parameter_sensitivity.png", dpi=220)
@@ -402,7 +463,13 @@ def plot_sensitivity(rows: list[dict], sensitivity: dict) -> None:
     plt.close(figure)
 
 
-def main() -> None:
+def main(*, plot_only: bool = False) -> None:
+    if plot_only:
+        rows, sensitivity = load_saved_outputs()
+        plot_sensitivity(rows, sensitivity)
+        print(f"已从 {len(rows)} 条现有记录重新生成敏感度图")
+        return
+
     rows, baseline = run_sweeps()
     sensitivity = local_sensitivity(rows, baseline)
     save_outputs(rows, baseline, sensitivity)
@@ -421,4 +488,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="生成问题3、4参数敏感度结果与论文图")
+    parser.add_argument("--plot-only", action="store_true", help="读取已有结果，只重画图6")
+    arguments = parser.parse_args()
+    main(plot_only=arguments.plot_only)

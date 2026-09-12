@@ -115,8 +115,7 @@ Excel 场变量保留四位小数，单次显示舍入误差上限为 `5×10⁻�
 
 ```powershell
 python src/run_all.py
-python src/analyze_errors.py
-python src/generate_figures.py
+python src/run_analysis.py
 ```
 
-误差数据保存于 `results/error_analysis.json`，合理性检查指标保存于 `results/reasonableness_metrics.json`，图片和可编辑矢量图保存于 `figures/`。
+`run_analysis.py` 按依赖顺序更新误差数据、合理性指标、参数敏感度结果以及全部 PNG/SVG 图，避免表格与图片使用不同批次的数据。

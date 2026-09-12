@@ -9,3 +9,5 @@ CUMCM2026Problems.zip
 intermediate/*
 !intermediate/summary.json
 results/*.inspect.ndjson
+clash-*.yaml
+remote-ssh-setup/

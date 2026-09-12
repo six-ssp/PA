@@ -1,6 +1,41 @@
 {
   "method": "deterministic one-at-a-time sensitivity around the baseline",
   "analysis_nodes": 321,
+  "sweep_row_count": 196,
+  "temperature_offset_points": [
+    -3.0,
+    -2.5,
+    -2.0,
+    -1.5,
+    -1.0,
+    -0.5,
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+  ],
+  "scale_factor_points": [
+    0.8,
+    0.825,
+    0.85,
+    0.875,
+    0.9,
+    0.925,
+    0.95,
+    0.975,
+    1.0,
+    1.025,
+    1.05,
+    1.075,
+    1.1,
+    1.125,
+    1.15,
+    1.175,
+    1.2
+  ],
   "baseline_drying_time_h": {
     "problem3": 57.49549929022373,
     "problem4": 51.09516234615482

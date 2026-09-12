@@ -211,7 +211,8 @@ results/grid_convergence.csv 网格收敛数据
 results/result1~result4.xlsx 官方格式结果文件
 src/analyze_errors.py          空间、时间误差与环境敏感性分析
 src/generate_figures.py        生成论文级 PNG/SVG 多面板图
-src/sensitivity_analysis.py    温度、时间尺度、半径及传质参数扫描
+src/sensitivity_analysis.py    196 工况的温度、时间、尺度及传质参数扫描
+src/run_analysis.py            统一更新误差、敏感度和全部论文图
 figures/                       正式数据图及可编辑矢量版本
 ```
 
@@ -243,9 +244,15 @@ npm run export
 生成误差分析与论文数据图：
 
 ```powershell
-python src/analyze_errors.py
-python src/generate_figures.py
-python src/sensitivity_analysis.py
+python src/run_analysis.py
+```
+
+该入口依次更新误差数据、图 1~5、196 条敏感度扫描记录和图 6，完整运行需要数分钟。也可继续单独执行 `analyze_errors.py`、`generate_figures.py` 或 `sensitivity_analysis.py`。
+
+只修改图 6 排版而不重新求解 196 个工况：
+
+```powershell
+python src/sensitivity_analysis.py --plot-only
 ```
 
 `python src/run_all.py` 会在控制台打印稳定环境均值、四档网格结果、最终时长和收缩对照，并生成所有 `intermediate/*.json` 与 `results/grid_convergence.csv`。Excel 导出只消费这些中间结果，避免人工抄写造成不一致。
