@@ -13,6 +13,7 @@
 - [数值误差与模型合理性分析](docs/error_and_reasonableness.md)
 - [温度、时间尺度与几何参数敏感度分析](docs/sensitivity_analysis.md)
 - [论文写作思路与章节安排](docs/paper_writing_guide.md)
+- [论文模型插图与推荐图题](docs/paper_illustrations.md)
 
 ## 一、模型假设
 
@@ -168,6 +169,14 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 ## 五、数据图与诊断图
 
+### 论文概括性插图
+
+![药材干燥过程概览](figures/10_drying_process_overview.png)
+
+![模型关键发现概览](figures/11_key_findings_summary.png)
+
+模型假设、材料坐标映射和四问数据流等可编辑示意图见 [论文模型插图与推荐图题](docs/paper_illustrations.md)。
+
 ### 短时径向温度—水分剖面
 
 ![短时径向温度与水分剖面](figures/01_short_term_radial_profiles.png)
@@ -213,6 +222,7 @@ src/analyze_errors.py          空间、时间误差与环境敏感性分析
 src/generate_figures.py        生成论文级 PNG/SVG 多面板图
 src/sensitivity_analysis.py    196 工况的温度、时间、尺度及传质参数扫描
 src/run_analysis.py            统一更新误差、敏感度和全部论文图
+src/generate_illustrations.py   生成论文概括性插图（自动读取正式摘要）
 figures/                       正式数据图及可编辑矢量版本
 ```
 

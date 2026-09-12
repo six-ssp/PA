@@ -4,14 +4,16 @@ from __future__ import annotations
 
 from analyze_errors import main as analyze_errors
 from generate_figures import main as generate_figures
+from generate_illustrations import main as generate_illustrations
 from sensitivity_analysis import main as analyze_sensitivity
 
 
 def main() -> None:
-    """按依赖顺序运行三组分析，避免结果表与图片不同步。"""
+    """按依赖顺序运行分析与绘图，避免结果表、数据图和插图不同步。"""
     analyze_errors()
     generate_figures()
     analyze_sensitivity()
+    generate_illustrations()
     print("全部误差、敏感度和论文图已更新")
 
 
