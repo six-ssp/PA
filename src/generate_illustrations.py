@@ -56,6 +56,7 @@ def configure_style() -> None:
             "mathtext.fontset": "stix",
             "figure.facecolor": COLORS["paper"],
             "savefig.facecolor": COLORS["paper"],
+            "svg.hashsalt": "PA-overview-illustrations-v1",
             "text.color": COLORS["ink"],
         }
     )
@@ -67,7 +68,7 @@ def save_figure(fig: plt.Figure, stem: str) -> None:
     png_path = FIGURE_DIR / f"{stem}.png"
     svg_path = FIGURE_DIR / f"{stem}.svg"
     fig.savefig(png_path, dpi=300, bbox_inches="tight", pad_inches=0.12)
-    fig.savefig(svg_path, bbox_inches="tight", pad_inches=0.12)
+    fig.savefig(svg_path, bbox_inches="tight", pad_inches=0.12, metadata={"Date": None})
 
     # 统一 SVG 换行符，避免不同平台生成无意义的 Git 差异。
     svg_text = svg_path.read_text(encoding="utf-8")
@@ -246,8 +247,13 @@ def physical_model_schematic() -> None:
         (0.375, COLORS["orange"]),
         (0.435, COLORS["blue"]),
     ]:
-        add_arrow(ax, (x_pos, 0.665), (x_pos, 0.62), color=color, linewidth=1.6)
-        add_arrow(ax, (x_pos, 0.35), (x_pos, 0.395), color=color, linewidth=1.6)
+        if color == COLORS["blue"]:
+            # 干燥水分通量从药材表面指向环境。
+            add_arrow(ax, (x_pos, 0.62), (x_pos, 0.665), color=color, linewidth=1.6)
+            add_arrow(ax, (x_pos, 0.395), (x_pos, 0.35), color=color, linewidth=1.6)
+        else:
+            add_arrow(ax, (x_pos, 0.665), (x_pos, 0.62), color=color, linewidth=1.6)
+            add_arrow(ax, (x_pos, 0.35), (x_pos, 0.395), color=color, linewidth=1.6)
 
     ax.text(
         0.302,
@@ -302,6 +308,8 @@ def physical_model_schematic() -> None:
         unit_display = direction / outer_r
         start = np.array(center) + direction + unit_display * 0.058
         end = np.array(center) + direction + unit_display * 0.008
+        if color == COLORS["blue"]:
+            start, end = end, start
         add_arrow(ax, tuple(start), tuple(end), color=color, linewidth=1.55, mutation_scale=12)
 
     ax.text(
@@ -462,7 +470,7 @@ def material_coordinate_mapping() -> None:
     fig.text(
         0.5,
         0.045,
-        "要点：坐标映射只改变方程中的尺度系数，不额外引入经验性收缩通量。",
+        "材料坐标成立的前提：均匀径向收缩，固定 x 跟随同一材料点；换元本身不自动消去输运项。",
         ha="center",
         fontsize=10.5,
         color=COLORS["muted"],
@@ -492,7 +500,7 @@ def model_framework() -> None:
 
     input_specs = [
         (0.045, "环境边界", "附件 1\n温度与湿度时序", COLORS["orange"]),
-        (0.37, "材料物性", "附件 2/3/4\n" + r"$k,\ c_p,\ \rho,\ D$", COLORS["teal"]),
+        (0.37, "材料物性", "附录 2/3/4\n" + r"$k,\ c_p,\ \rho,\ D$", COLORS["teal"]),
         (0.695, "几何信息", "初始尺寸与附件 2\n半径收缩曲线 $R(t)$", COLORS["purple"]),
     ]
     for x_pos, title, body, color in input_specs:
@@ -523,7 +531,7 @@ def model_framework() -> None:
     ax.text(
         0.5,
         0.45,
-        "主输出：径向温度场、湿基含水率场、中心/表面过程线与达标时刻",
+        "主输出：径向温度场、干基含水率场、中心/表面过程线与达标时刻",
         ha="center",
         fontsize=10.8,
         color=COLORS["blue"],
@@ -531,8 +539,8 @@ def model_framework() -> None:
     )
 
     question_specs = [
-        (0.03, "问题 1", "基础场", "常物性 · 固定半径\n30 min 温湿分布", COLORS["navy"]),
-        (0.275, "问题 2", "变物性", "$k,c_p,D$ 随状态变化\n3 h 温湿演化", COLORS["blue"]),
+        (0.03, "问题 1", "基础场", "常热物性 · 扩散系数 D(C)\n30 min 温湿分布", COLORS["navy"]),
+        (0.275, "问题 2", "变物性", r"$\rho,k,c_p,D$ 随状态变化" + "\n3 h 温湿演化", COLORS["blue"]),
         (0.52, "问题 3", "事件求解", "固定半径\n求 " + r"$\max C\leq0.15$" + " 时刻", COLORS["orange"]),
         (0.765, "问题 4", "收缩修正", "材料坐标 $x=r/R(t)$\n重新计算达标时刻", COLORS["purple"]),
     ]
@@ -738,7 +746,7 @@ def key_findings_summary() -> None:
         (0.035, 0.60, COLORS["orange"], "温度演化", rf"28 °C  →  ≈{stable_temperature:.0f} °C", "表面先升温，中心随后趋稳"),
         (0.70, 0.60, COLORS["blue"], "水分迁移", rf"{initial_moisture:.2f}  →  ≤0.15 kg/kg", "表面先失水，全空间最大值控制结束"),
         (0.035, 0.18, COLORS["purple"], "尺寸收缩", rf"2.0 cm  →  {final_radius_cm:.1f} cm", f"同为附录 4 物性时，时间缩短 {reduction_percent:.2f}%"),
-        (0.70, 0.18, COLORS["teal"], "主导因素", "温度  >  半径  >  扩散系数", "轴向长度为零敏感仅源于一维模型假设"),
+        (0.70, 0.18, COLORS["teal"], "敏感因素", "温度 · 半径 · 扩散系数", "敏感度排序须指定扰动幅度与归一化方式"),
     ]
     for x_pos, y_pos, color, title, metric, note in cards:
         add_card(ax, x_pos, y_pos, 0.265, 0.205, facecolor=COLORS["white"], edgecolor=color + "80", linewidth=1.5)

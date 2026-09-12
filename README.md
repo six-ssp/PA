@@ -171,6 +171,12 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 ### 论文概括性插图
 
+正文推导图借鉴优秀建模论文“对象示意—局部公式—判据验证”的组织方式，完整图题、用途和参考来源见 [论文模型插图与推荐图题](docs/paper_illustrations.md)。
+
+![环形控制体与界面通量](figures/13_radial_control_volume.png)
+
+![空间分布与烘干事件判据](figures/15_drying_event_criterion.png)
+
 ![药材干燥过程概览](figures/10_drying_process_overview.png)
 
 ![模型关键发现概览](figures/11_key_findings_summary.png)
@@ -223,6 +229,7 @@ src/generate_figures.py        生成论文级 PNG/SVG 多面板图
 src/sensitivity_analysis.py    196 工况的温度、时间、尺度及传质参数扫描
 src/run_analysis.py            统一更新误差、敏感度和全部论文图
 src/generate_illustrations.py   生成论文概括性插图（自动读取正式摘要）
+src/generate_method_figures.py  生成正文推导图与真实数值解的事件判据图
 figures/                       正式数据图及可编辑矢量版本
 ```
 
@@ -257,7 +264,7 @@ npm run export
 python src/run_analysis.py
 ```
 
-该入口依次更新误差数据、图 1~5、196 条敏感度扫描记录和图 6，完整运行需要数分钟。也可继续单独执行 `analyze_errors.py`、`generate_figures.py` 或 `sensitivity_analysis.py`。
+该入口依次更新误差数据、图 1~5、196 条敏感度扫描记录、图 6、概览插图 7~11 和正文推导图 12~15，完整运行需要数分钟。图 15 额外求解一次问题 3 并核对正式事件时刻。各分析和绘图脚本也可单独执行。
 
 只修改图 6 排版而不重新求解 196 个工况：
 

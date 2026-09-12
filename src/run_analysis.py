@@ -5,6 +5,7 @@ from __future__ import annotations
 from analyze_errors import main as analyze_errors
 from generate_figures import main as generate_figures
 from generate_illustrations import main as generate_illustrations
+from generate_method_figures import main as generate_method_figures
 from sensitivity_analysis import main as analyze_sensitivity
 
 
@@ -14,6 +15,7 @@ def main() -> None:
     generate_figures()
     analyze_sensitivity()
     generate_illustrations()
+    generate_method_figures()
     print("全部误差、敏感度和论文图已更新")
 
 

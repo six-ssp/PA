@@ -1,0 +1,14 @@
+{
+  "source": "problem3, 641-node continuous solution",
+  "nodes": 641,
+  "drying_time_s": 206930.54559259806,
+  "reference_drying_time_s": 206930.54559259806,
+  "event_residual": 0.0,
+  "profile_times_h": [
+    18.0,
+    48.0,
+    57.48070710905502
+  ],
+  "first_profile_center_C": 0.2988431199894821,
+  "first_profile_surface_C": 0.08445908934708764
+}
