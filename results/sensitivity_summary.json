@@ -1,0 +1,113 @@
+{
+  "method": "deterministic one-at-a-time sensitivity around the baseline",
+  "analysis_nodes": 321,
+  "baseline_drying_time_h": {
+    "problem3": 57.49549929022373,
+    "problem4": 51.09516234615482
+  },
+  "temperature_standard_perturbation": "stable-stage boundary temperature ±2 degC",
+  "other_standard_perturbation": "parameter scale ±10%",
+  "axial_length_note": "zero sensitivity because axial end effects are excluded from the 1D radial model",
+  "local_sensitivity": {
+    "problem3": {
+      "stable_temperature": {
+        "label": "稳定温度",
+        "local_derivative_h_per_unit": -1.8281739249405007,
+        "dimensionless_elasticity": -10.275102174388296,
+        "standard_low_change_percent": 6.65091010846306,
+        "standard_high_change_percent": -6.081735705719424,
+        "standard_perturbation": "±2 degC"
+      },
+      "boundary_time_scale": {
+        "label": "边界时间尺度",
+        "local_derivative_h_per_unit": 0.10531857107004328,
+        "dimensionless_elasticity": 0.0018317707015364794,
+        "standard_low_change_percent": -0.01820150066500137,
+        "standard_high_change_percent": 0.01843391336572822,
+        "standard_perturbation": "±10%"
+      },
+      "radius_scale": {
+        "label": "径向尺度",
+        "local_derivative_h_per_unit": 108.25328975280509,
+        "dimensionless_elasticity": 1.882813282590486,
+        "standard_low_change_percent": -17.923315160824924,
+        "standard_high_change_percent": 19.73295049098479,
+        "standard_perturbation": "±10%"
+      },
+      "stable_moisture_scale": {
+        "label": "环境含水率",
+        "local_derivative_h_per_unit": 0.873828685237612,
+        "dimensionless_elasticity": 0.015198210225581847,
+        "standard_low_change_percent": -0.12928269314680124,
+        "standard_high_change_percent": 0.1746815113648357,
+        "standard_perturbation": "±10%"
+      },
+      "diffusivity_scale": {
+        "label": "扩散系数",
+        "local_derivative_h_per_unit": -51.37503785614076,
+        "dimensionless_elasticity": -0.8935488601779363,
+        "standard_low_change_percent": 9.850368464209224,
+        "standard_high_change_percent": -8.020608739349502,
+        "standard_perturbation": "±10%"
+      },
+      "axial_length_scale": {
+        "label": "轴向长度",
+        "local_derivative_h_per_unit": 0.0,
+        "dimensionless_elasticity": 0.0,
+        "standard_low_change_percent": 0.0,
+        "standard_high_change_percent": 0.0,
+        "standard_perturbation": "±10%"
+      }
+    },
+    "problem4": {
+      "stable_temperature": {
+        "label": "稳定温度",
+        "local_derivative_h_per_unit": -1.6022591823457333,
+        "dimensionless_elasticity": -10.133406724753925,
+        "standard_low_change_percent": 6.555331547978073,
+        "standard_high_change_percent": -6.001476357499826,
+        "standard_perturbation": "±2 degC"
+      },
+      "boundary_time_scale": {
+        "label": "边界时间尺度",
+        "local_derivative_h_per_unit": 0.10524134723748801,
+        "dimensionless_elasticity": 0.0020597125521298588,
+        "standard_low_change_percent": -0.02032365187278219,
+        "standard_high_change_percent": 0.02087059916981499,
+        "standard_perturbation": "±10%"
+      },
+      "radius_scale": {
+        "label": "径向尺度",
+        "local_derivative_h_per_unit": 92.48240185722,
+        "dimensionless_elasticity": 1.81000309247828,
+        "standard_low_change_percent": -17.214732602984274,
+        "standard_high_change_percent": 18.98532924658133,
+        "standard_perturbation": "±10%"
+      },
+      "stable_moisture_scale": {
+        "label": "环境含水率",
+        "local_derivative_h_per_unit": 1.1044776909586673,
+        "dimensionless_elasticity": 0.021616091235333652,
+        "standard_low_change_percent": -0.18694822180164222,
+        "standard_high_change_percent": 0.24537360290503082,
+        "standard_perturbation": "±10%"
+      },
+      "diffusivity_scale": {
+        "label": "扩散系数",
+        "local_derivative_h_per_unit": -45.40472930666365,
+        "dimensionless_elasticity": -0.8886306887344804,
+        "standard_low_change_percent": 9.786887416381989,
+        "standard_high_change_percent": -7.985726358307619,
+        "standard_perturbation": "±10%"
+      },
+      "axial_length_scale": {
+        "label": "轴向长度",
+        "local_derivative_h_per_unit": 0.0,
+        "dimensionless_elasticity": 0.0,
+        "standard_low_change_percent": 0.0,
+        "standard_high_change_percent": 0.0,
+        "standard_perturbation": "±10%"
+      }
+    }
+  }
+}

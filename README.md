@@ -11,6 +11,7 @@
 - [问题 3：固定半径条件下烘干结束时间](docs/problem3.md)
 - [问题 4：材料坐标下的半径收缩烘干模型](docs/problem4.md)
 - [数值误差与模型合理性分析](docs/error_and_reasonableness.md)
+- [温度、时间尺度与几何参数敏感度分析](docs/sensitivity_analysis.md)
 - [论文写作思路与章节安排](docs/paper_writing_guide.md)
 
 ## 一、模型假设
@@ -187,6 +188,10 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 ![合理性与敏感性分析](figures/05_reasonableness_and_sensitivity.png)
 
+### 温度、时间尺度与几何参数敏感度
+
+![参数敏感度分析](figures/06_parameter_sensitivity.png)
+
 每张图同时提供 PNG 和可编辑 SVG 版本。详细误差公式、数值表和适用边界见 [数值误差与模型合理性分析](docs/error_and_reasonableness.md)。
 
 ## 六、仓库结构与运行
@@ -206,6 +211,7 @@ results/grid_convergence.csv 网格收敛数据
 results/result1~result4.xlsx 官方格式结果文件
 src/analyze_errors.py          空间、时间误差与环境敏感性分析
 src/generate_figures.py        生成论文级 PNG/SVG 多面板图
+src/sensitivity_analysis.py    温度、时间尺度、半径及传质参数扫描
 figures/                       正式数据图及可编辑矢量版本
 ```
 
@@ -239,6 +245,7 @@ npm run export
 ```powershell
 python src/analyze_errors.py
 python src/generate_figures.py
+python src/sensitivity_analysis.py
 ```
 
 `python src/run_all.py` 会在控制台打印稳定环境均值、四档网格结果、最终时长和收缩对照，并生成所有 `intermediate/*.json` 与 `results/grid_convergence.csv`。Excel 导出只消费这些中间结果，避免人工抄写造成不一致。
