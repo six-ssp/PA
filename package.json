@@ -7,6 +7,10 @@
   },
   "scripts": {
     "solve": "python src/run_all.py",
-    "export": "node export_results.mjs"
+    "export": "node export_results.mjs",
+    "check:export": "node export_results.mjs --check-inputs",
+    "test": "python -m unittest discover -s tests -v",
+    "check": "python src/check_repository.py",
+    "analysis": "python src/run_analysis.py"
   }
 }

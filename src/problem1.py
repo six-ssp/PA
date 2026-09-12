@@ -1,4 +1,4 @@
-"""问题 1：常物性圆柱在前 30 min 内的温度场与水分场。"""
+"""问题 1：常热物性、浓度相关扩散系数圆柱在前 30 min 内的温度与水分场。"""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ class Problem1Output:
 
 def solve_problem1(environment: Environment, *, nodes: int = SHORT_NODES, save: bool = True) -> Problem1Output:
     """求解问题 1；默认写出 ``intermediate/result1.json``。"""
-    # 问题 1 只考察前 30 min，并采用附录 2 给出的常物性参数。
+    # 附录 2 的 rho、cp、k 固定，但水分扩散系数 D 仍随浓度变化。
     end_time_s = 30.0 * 60.0
     simulation = simulate(environment, law_problem1(), end_time_s, nodes=nodes)
 

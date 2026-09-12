@@ -11,3 +11,7 @@ intermediate/*
 results/*.inspect.ndjson
 clash-*.yaml
 remote-ssh-setup/
+
+# 私人论文默认不入库；忽略规则不能保护已经被跟踪的文件，提交前仍需审查。
+论文.pdf
+private/

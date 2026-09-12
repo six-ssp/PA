@@ -22,7 +22,7 @@
 3. 题目未提供蒸发潜热、吸附等温线等参数，因此不增设这些经验项；附录 2、3、4 的 `ρ(C)、cp(C)、k(C)、D(C,T)` 公式保持不变。
 4. 表面采用第三类换热、传质边界，`h=25 W/(m²·K)`，`hm=8×10⁻⁷ m/s`。
 5. 附件 1 数据区间内采用分段线性插值；`14400 s` 后采用 `12000~14400 s` 稳定段的自动计算均值：`T_const=49.99875610 °C`、`C_const=0.04998415 kg/kg`。
-6. 问题 4 中附件 2 的 `R(t)` 在数据区间内分段线性插值，数据结束后保持末值。`x=r/R(t)` 被定义为随固体骨架运动的材料坐标，而非固定空间坐标，因此不额外添加收缩对流项。
+6. 问题 4 中附件 2 的 `R(t)` 在数据区间内分段线性插值，数据结束后保持末值。额外假设径向均匀比例收缩 `v_r=r R'(t)/R(t)`，并将原方程时间变化解释为材料导数，此时 `x=r/R(t)` 才可作为材料坐标且不额外添加对流项。该假设并非仅由半径数据或坐标换元自动推出，详见 [问题 4](docs/problem4.md)。
 
 ## 二、控制方程与边界条件
 
@@ -251,12 +251,14 @@ python src/problem4.py
 
 四个分题文件调用同一份 `src/model.py`，因此没有复制控制方程或改变模型。问题 3、4 在各自文件中仍保留“事件定位 + 规则 60 s 输出”的两遍求解逻辑。
 
-导出 Excel（需要 Node.js 和 `@oai/artifact-tool`）：
+导出 Excel（需要 Node.js 和可用的 `@oai/artifact-tool` 环境；这是独立于 Python 求解的额外依赖）：
 
 ```powershell
 npm install
 npm run export
 ```
+
+若该依赖无法安装，仍可运行 Python 求解、分析和检查，并直接使用仓库已有的 `results/result1.xlsx` 至 `result4.xlsx`；不要将安装失败误判为数值模型失败。重新求解后的 JSON 必须成功导出并通过一致性检查，才能替代已发布 Excel。
 
 生成误差分析与论文数据图：
 
@@ -273,3 +275,26 @@ python src/sensitivity_analysis.py --plot-only
 ```
 
 `python src/run_all.py` 会在控制台打印稳定环境均值、四档网格结果、最终时长和收缩对照，并生成所有 `intermediate/*.json` 与 `results/grid_convergence.csv`。Excel 导出只消费这些中间结果，避免人工抄写造成不一致。
+
+## 七、维护与自动检查
+
+首次克隆后可直接执行（不需要重新跑长时间模型）：
+
+```powershell
+python -m unittest discover -s tests -v
+python src/check_repository.py
+```
+
+更新模型或附件时，按依赖顺序完整更新：
+
+```powershell
+python src/run_all.py
+npm run export
+python src/check_repository.py --tables-only --with-intermediate
+python src/run_analysis.py
+python src/check_repository.py --with-intermediate
+```
+
+`--with-intermediate` 会逐单元格核对 JSON 和 Excel；刚克隆时 JSON 未入库，使用默认检查即可。单独运行某一问不会更新总摘要或其他问，不能直接作为完整发布结果。
+
+检查范围、维护约定与本次核验结论见 [仓库维护说明](docs/repository_maintenance.md)。自动检查只证明所覆盖的数值回归、格式及成果一致性，不代表真实实验预测误差已知。私人论文放在仓库外；禁止使用 `git add .` 混入其他任务文件。

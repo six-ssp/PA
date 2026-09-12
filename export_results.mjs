@@ -4,15 +4,38 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { FileBlob, SpreadsheetFile } from "@oai/artifact-tool";
 
-const root = path.resolve(".");
+// 以脚本位置定位仓库，允许从其他工作目录执行。
+const root = path.dirname(fileURLToPath(import.meta.url));
 const inputDir = path.join(root, "附件3");
 const intermediateDir = path.join(root, "intermediate");
 const outputDir = path.join(root, "results");
 
 async function loadJson(name) {
-  return JSON.parse(await fs.readFile(path.join(intermediateDir, name), "utf8"));
+  try {
+    return JSON.parse(await fs.readFile(path.join(intermediateDir, name), "utf8"));
+  } catch (error) {
+    throw new Error(`无法读取 intermediate/${name}；请先执行 python src/run_all.py`, { cause: error });
+  }
+}
+
+function validatePayload(payload, fields, name) {
+  if (!Array.isArray(payload.time) || !payload.time.length || !Array.isArray(payload.distance)) {
+    throw new Error(`${name}: 缺少时间或距离数组`);
+  }
+  if (payload.time[0] !== 0 || payload.time.some((v, i, a) => !Number.isFinite(v) || (i > 0 && v <= a[i - 1]))) {
+    throw new Error(`${name}: 时间必须从 0 开始并严格递增`);
+  }
+  for (const field of fields) {
+    const matrix = payload[field];
+    if (!Array.isArray(matrix) || matrix.length !== payload.time.length ||
+        matrix.some(row => !Array.isArray(row) || row.length !== payload.distance.length ||
+          row.some(value => value !== null && (typeof value !== "number" || !Number.isFinite(value))))) {
+      throw new Error(`${name}/${field}: 矩阵尺寸或数值非法`);
+    }
+  }
 }
 
 async function importTemplate(name) {
@@ -74,6 +97,16 @@ const result2 = await loadJson("result2.json");
 const result3 = await loadJson("result3.json");
 const result4 = await loadJson("result4.json");
 
+// 所有输入先验证，避免到第四份才发现坏数据而留下部分更新的输出。
+validatePayload(result1, ["temperature", "moisture"], "result1");
+validatePayload(result2, ["temperature", "moisture"], "result2");
+validatePayload(result3, ["moisture"], "result3");
+validatePayload(result4, ["moisture"], "result4");
+if (process.argv.includes("--check-inputs")) {
+  console.log("四份导出输入检查通过；未修改 Excel。");
+  process.exit(0);
+}
+
 await exportWorkbook("result1.xlsx", result1, [
   { sheetName: "温度", key: "temperature" },
   { sheetName: "水分浓度", key: "moisture" },
@@ -90,4 +123,3 @@ await exportWorkbook("result4.xlsx", result4, [
 ]);
 
 console.log(`Exported result workbooks to ${outputDir}`);
-
