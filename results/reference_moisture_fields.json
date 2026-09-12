@@ -1,0 +1,29 @@
+{
+  "verified_compatible_source_sha256": [
+    {
+      "src/model.py": "2c22604756e4e6f447ccbc81d7fa0b8456637d5942ab3d58c3d8d8a68579ab06",
+      "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+      "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+      "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+    }
+  ],
+  "compatibility_verification": "results/figure_source_compatibility.json",
+  "nodes": 641,
+  "source_sha256": {
+    "src/model.py": "7484280a73a5fa965e4cefc250a420d306b0e7505cd6de6e28c6e189cf0905c3",
+    "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+    "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+  },
+  "event_times_s": {
+    "3": 206930.54559259806,
+    "4": 183934.72438706338
+  },
+  "time_range_h": [
+    0,
+    24
+  ],
+  "field_unit": "kg/kg dry basis",
+  "coordinate": "x=r/R(t)",
+  "data_sha256": "79d4281e3a79eb483e4b1ff332b7323b1979588844fb6c2568d3d713ef8c1cc6"
+}

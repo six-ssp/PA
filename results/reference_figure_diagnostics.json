@@ -1,0 +1,34 @@
+{
+  "3": {
+    "plane_r2": 0.993323600403351,
+    "plane_rmse_h": 1.1267669817708594,
+    "max_plane_deviation_h": 4.079236174638922,
+    "range_h": 55.087226519567686,
+    "off_axis_cases": 192,
+    "additive_rmse_h": 0.9430386921493897,
+    "additive_mae_h": 0.7511219673133233,
+    "additive_max_error_h": 2.6968914531693287
+  },
+  "4": {
+    "plane_r2": 0.9930987966811202,
+    "plane_rmse_h": 0.9800288569467935,
+    "max_plane_deviation_h": 3.533479952502134,
+    "range_h": 47.268662769074,
+    "off_axis_cases": 192,
+    "additive_rmse_h": 0.8221093278121263,
+    "additive_mae_h": 0.6554599783717839,
+    "additive_max_error_h": 2.3347968290351844
+  },
+  "paired_cases": {
+    "count": 221,
+    "median_difference_h": 6.400336944068904,
+    "min_difference_h": 3.1168030366614587,
+    "max_difference_h": 10.935366787155147
+  },
+  "source_sha256": {
+    "results/joint_sensitivity_sweep.csv": "2cfd934dcc13b3727590d8ab53385baf56f6898b05c0db8a55c4ab7493b93b1a",
+    "results/sensitivity_sweep.csv": "d56f4ac454c6bc3d618a2c07b207e3dbefb807d145e38c9a083f08919d4cf350",
+    "results/reference_moisture_fields.npz": "79d4281e3a79eb483e4b1ff332b7323b1979588844fb6c2568d3d713ef8c1cc6"
+  },
+  "interpretation": "finite deterministic scenario grids; no independent experimental truth; raincloud KDE is descriptive only"
+}

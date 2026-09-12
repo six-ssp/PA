@@ -207,6 +207,14 @@ D ∂C/∂r(R,t)=hm[C∞(t)-Cs]
 
 ![参数敏感度分析](figures/06_parameter_sensitivity.png)
 
+双参数联合敏感度与真实场三维可视化：
+
+![真实含水率时空曲面](figures/22_moisture_spacetime_surface.png)
+
+新增交互三维曲面、配对云雨图、分组环形热图及加和近似边缘分布对照，见 [参考图适配与图集](docs/reference_figure_guide.md)。原图 16 保留绝对时长响应，新图 22 展示实际含水率时空变化，二者不是同一个纵轴量。
+
+运行 `python src/sensitivity_surface.py --workers 4` 计算真实联合工况；`--plot-only` 只重绘，`--check-only` 只校验。详见 [敏感度分析](docs/sensitivity_analysis.md)。此扩展独立于原 196 条单因素扫描，不替换正式四问答案。
+
 每张图同时提供 PNG 和可编辑 SVG 版本。详细误差公式、数值表和适用边界见 [数值误差与模型合理性分析](docs/error_and_reasonableness.md)。
 
 ## 六、仓库结构与运行

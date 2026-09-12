@@ -1,0 +1,83 @@
+{
+  "verified_compatible_source_sha256": [
+    {
+      "src/model.py": "2c22604756e4e6f447ccbc81d7fa0b8456637d5942ab3d58c3d8d8a68579ab06",
+      "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+      "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+      "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+    }
+  ],
+  "compatibility_verification": "results/figure_source_compatibility.json",
+  "nodes": 321,
+  "grid_shape_per_problem": [
+    13,
+    17
+  ],
+  "grid_cases": 442,
+  "validation_cases": 18,
+  "source_sha256": {
+    "src/model.py": "7484280a73a5fa965e4cefc250a420d306b0e7505cd6de6e28c6e189cf0905c3",
+    "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+    "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+  },
+  "problems": {
+    "3": {
+      "baseline_h": 57.49549929022373,
+      "min_h": 34.708716460059726,
+      "max_h": 89.79594297962741,
+      "max_interpolation_probe_error_percent": 0.00018192579456233204,
+      "max_abs_interaction_h": 2.6968914531693287,
+      "event_residual_max": 2.7755575615628914e-17
+    },
+    "4": {
+      "baseline_h": 51.09516234615482,
+      "min_h": 31.591913423398267,
+      "max_h": 78.86057619247227,
+      "max_interpolation_probe_error_percent": 0.0009069909217562788,
+      "max_abs_interaction_h": 2.3347968290351844,
+      "event_residual_max": 2.7755575615628914e-17
+    }
+  },
+  "temperature_offsets_c": [
+    -3.0,
+    -2.5,
+    -2.0,
+    -1.5,
+    -1.0,
+    -0.5,
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0
+  ],
+  "radius_scales": [
+    0.8,
+    0.825,
+    0.85,
+    0.875,
+    0.9,
+    0.925,
+    0.95,
+    0.975,
+    1.0,
+    1.025,
+    1.05,
+    1.075,
+    1.1,
+    1.125,
+    1.15,
+    1.175,
+    1.2
+  ],
+  "stable_temperature_baseline_c": 49.99875609756098,
+  "temperature_scope": "only boundary after 14400 s; measured segment unchanged",
+  "radius_scope": "scale fixed R for Q3 and entire attachment R(t) for Q4",
+  "interpolation": "PCHIP along temperature then radius; rendering only",
+  "probe_error_limit_percent": 0.05,
+  "interaction_definition": "t(dT,s)-t(dT,1)-t(0,s)+t(0,1), hours",
+  "statistical_claim": "deterministic two-factor sweep, not confidence intervals or global variance decomposition"
+}

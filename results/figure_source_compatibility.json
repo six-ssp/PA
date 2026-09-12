@@ -1,0 +1,34 @@
+{
+  "published_revision": "88ecee9229ae4999b23057e9ff55a3103187599b",
+  "generation_source_sha256": {
+    "src/model.py": "7484280a73a5fa965e4cefc250a420d306b0e7505cd6de6e28c6e189cf0905c3",
+    "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+    "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+  },
+  "verified_source_sha256": {
+    "src/model.py": "2c22604756e4e6f447ccbc81d7fa0b8456637d5942ab3d58c3d8d8a68579ab06",
+    "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
+    "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+  },
+  "joint_cases": 460,
+  "max_drying_time_difference_h": 0,
+  "max_event_residual_difference": 0,
+  "moisture_fields": {
+    "3": {
+      "max_abs_moisture_difference": 0,
+      "drying_time_difference_s": 0
+    },
+    "4": {
+      "max_abs_moisture_difference": 0,
+      "drying_time_difference_s": 0
+    }
+  },
+  "scope": "Default material-coordinate model only; optional local diagnostic branch not used.",
+  "data_sha256": {
+    "results/joint_sensitivity_sweep.csv": "2cfd934dcc13b3727590d8ab53385baf56f6898b05c0db8a55c4ab7493b93b1a",
+    "results/reference_moisture_fields.npz": "79d4281e3a79eb483e4b1ff332b7323b1979588844fb6c2568d3d713ef8c1cc6"
+  },
+  "method": "Load src/model.py from the pinned Git revision into each worker before importing the solver; independently recompute all 460 CSV cases at 321 nodes and both 641-node moisture fields at the saved 181 time points; compare numeric arrays and drying events with the saved data."
+}
