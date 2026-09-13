@@ -6,7 +6,8 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
-from robustness_analysis import case,coarse_cases,input_error,solve_case,threshold_jobs
+from robustness_analysis import HMAX,case,coarse_cases,input_error,solve_case,threshold_jobs,refine
+from verify_robustness import compare_windows
 
 class RobustnessTests(unittest.TestCase):
     def test_invalid_inputs_never_reach_solver(self):
@@ -50,6 +51,9 @@ class RobustnessTests(unittest.TestCase):
         cases=coarse_cases()
         self.assertEqual(len(cases),410)
         self.assertEqual(sum(c['role']=='joint' for c in cases),198)
+        self.assertEqual(HMAX,500.)
+        self.assertTrue(all(c['horizon_h']==500. for c in cases))
+        self.assertTrue(all(c['max_step_s']==120. for c in cases))
         c=case(4,'adverse',1.)
         self.assertEqual(c['radius_scale'],1.5)
         self.assertEqual(c['diffusivity_scale'],.5)
@@ -59,5 +63,50 @@ class RobustnessTests(unittest.TestCase):
         rows=[{**case(3,'radius_scale',v),'status':s} for v,s in
               [(1.,'dry'),(2.,'deadline_exceeded'),(3.,'solver_failure')]]
         self.assertEqual(threshold_jobs(rows),[(3,'radius_scale',1.,2.)])
+
+    def test_refinement_and_extension_use_current_horizon(self):
+        def fake(cfg):
+            ok=cfg['value']<1.5 or cfg['horizon_h']>HMAX
+            return {**cfg,'status':'dry' if ok else 'deadline_exceeded',
+                    'drying_time_h':499. if ok else None}
+        with patch('robustness_analysis.solve_case',side_effect=fake):
+            out=refine((3,'radius_scale',1.,2.))
+        self.assertEqual(out['extension_horizon_h'],1000.)
+        self.assertEqual(out['extension_status'],'dry')
+        self.assertTrue(all(r['horizon_h']==500. for r in out['records'][:-1]))
+        self.assertEqual(out['records'][-1]['horizon_h'],1000.)
+
+    def test_window_comparison_pairs_same_inputs(self):
+        a={**case(3), 'horizon_h':120., 'status':'deadline_exceeded', 'drying_time_h':None}
+        b={**a, 'horizon_h':500., 'status':'dry', 'drying_time_h':200.}
+        out=compare_windows([a],[b])
+        self.assertEqual(out['by_problem']['3']['newly_dry'],1)
+        with self.assertRaises(AssertionError):
+            compare_windows([a],[{**b,'radius_scale':2.}])
+
+    def test_extension_failure_is_saved_without_losing_bracket(self):
+        def fake(cfg):
+            status=('solver_failure' if cfg['horizon_h']>HMAX else
+                    'dry' if cfg['value']<1.5 else 'deadline_exceeded')
+            return {**cfg,'status':status,'drying_time_h':499. if status=='dry' else None}
+        with patch('robustness_analysis.solve_case',side_effect=fake):
+            out=refine((3,'radius_scale',1.,2.))
+        self.assertEqual(out['status'],'bracketed')
+        self.assertEqual(out['extension_status'],'solver_failure')
+        self.assertEqual(out['records'][-1]['role'],'extension')
+
+    def test_refinement_failure_keeps_records(self):
+        def fake(cfg):
+            return {**cfg,'status':'solver_failure','drying_time_h':None}
+        with patch('robustness_analysis.solve_case',side_effect=fake):
+            out=refine((3,'radius_scale',1.,2.))
+        self.assertEqual(out['status'],'refinement_failed')
+        self.assertEqual(len(out['records']),1)
+
+    def test_longer_window_cannot_lose_previous_success(self):
+        a={**case(3), 'horizon_h':120., 'status':'dry', 'drying_time_h':50.}
+        b={**a, 'horizon_h':500., 'status':'deadline_exceeded', 'drying_time_h':None}
+        with self.assertRaises(AssertionError):
+            compare_windows([a],[b])
 
 if __name__=='__main__':unittest.main()

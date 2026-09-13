@@ -1,5 +1,41 @@
 {
   "checks": "PASS_WITH_WARNINGS",
+  "verify_code_sha256": "8f6600eb8a3554618a83f1987040c403d4c2c401bed26f7bdc942b4edcba77fc",
+  "horizon_h": 500.0,
+  "window_comparison": {
+    "old_horizon_h": 120.0,
+    "new_horizon_h": 500.0,
+    "paired_cases": 410,
+    "old_success_max_time_change_s": 0.0,
+    "by_problem": {
+      "3": {
+        "before": {
+          "dry": 99,
+          "deadline_exceeded": 101,
+          "invalid_input": 5
+        },
+        "after": {
+          "dry": 160,
+          "deadline_exceeded": 40,
+          "invalid_input": 5
+        },
+        "newly_dry": 61
+      },
+      "4": {
+        "before": {
+          "dry": 108,
+          "deadline_exceeded": 92,
+          "invalid_input": 5
+        },
+        "after": {
+          "dry": 162,
+          "deadline_exceeded": 38,
+          "invalid_input": 5
+        },
+        "newly_dry": 54
+      }
+    }
+  },
   "monotonicity_warnings": [
     {
       "problem": 3,
@@ -13,13 +49,36 @@
     }
   ],
   "coarse_cases": 410,
-  "all_cases": 624,
+  "all_cases": 582,
   "status_counts": {
-    "dry": 321,
-    "deadline_exceeded": 293,
+    "dry": 427,
+    "deadline_exceeded": 144,
+    "invalid_input": 10,
+    "solver_failure": 1
+  },
+  "thresholds_checked": 8,
+  "extension_status_counts": {
+    "dry": 6,
+    "solver_failure": 1,
+    "deadline_exceeded": 1
+  },
+  "main_window_status_counts": {
+    "dry": 421,
+    "deadline_exceeded": 143,
     "invalid_input": 10
   },
-  "thresholds_checked": 10,
+  "numerical_anomalies": [
+    {
+      "problem": "3",
+      "parameter": "moisture",
+      "value": "0.15",
+      "role": "extension",
+      "nodes": "321",
+      "horizon_h": "1000.0",
+      "status": "solver_failure",
+      "message": "ValueError: f(a) and f(b) must have different signs"
+    }
+  ],
   "baseline_641_error_s": {
     "3": 0.0,
     "4": 0.0
@@ -79,6 +138,6 @@
       "difference_641_to_1281_s": 2.094366184147134
     }
   ],
-  "q4_successful_coarse_cases_using_radius_hold_after_72h": 27,
+  "q4_successful_coarse_cases_using_radius_hold_after_72h": 81,
   "warning": "Finite-domain solver checks do not prove empirical validity or global robustness."
 }

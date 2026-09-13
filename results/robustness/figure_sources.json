@@ -1,14 +1,16 @@
 {
   "data_sha256": {
-    "coarse.json": "2705933b1b6bd66dd5785a2b6a83d9d606a0a99ab79fda45155535899ece1a62",
-    "summary.json": "d9bb5f8604108472719c76c3da0a36493ea39cd94573e053b3a5aba0608c74b5",
-    "all_cases.csv": "3128989e37d75b06adbd756d54592b35c52b67171568cf0488fb05f42ccaeba7",
-    "low_moisture_grid.json": "84119d446b1ff47c589c0f372c1b87b442a864c528d21d0a7d41837e61f6fd43"
+    "coarse.json": "f2350cea12cb5924848db222df2b055c49fc114ae7c78c53b05d6b3b5c7a6fc4",
+    "summary.json": "fa5211e3d5dde582c5d6d5188c8d5bf2f103f9d41a61ce122ec2750f308d7ddc",
+    "all_cases.csv": "07332c8d1641ea71711938cf93dee47ce0b8ede892e6cfb60729c1f2fb6bffb3",
+    "low_moisture_grid.json": "7df08069abde703745f0c3c8707de33fe88b04526c2a0dd5e8394ea510d5f6fa",
+    "reference_120h.json": "2705933b1b6bd66dd5785a2b6a83d9d606a0a99ab79fda45155535899ece1a62"
   },
-  "plot_code_sha256": "057d59a5664cfb51033c88d6a049bcd39262e25688a8aee3ae0f71ca9bb2a3db",
+  "plot_code_sha256": "8212ff45ad8a19551f3a55ab7e16ae209c89995d2e42f51cf7341571a9bc23df",
   "figures": [
     "23_robustness_feasibility_map",
     "24_robustness_stress_curves"
   ],
-  "notes": "Only real solves are colored. Gray cells and top triangles denote censoring at 120 h, not solver failure."
+  "horizon_h": 500.0,
+  "notes": "Only real solves are colored. Gray cells and top triangles denote censoring at the recorded horizon, not solver failure."
 }

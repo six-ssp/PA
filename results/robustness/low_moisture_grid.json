@@ -2,11 +2,13 @@
   "source_sha256": {
     "src/model.py": "2c22604756e4e6f447ccbc81d7fa0b8456637d5942ab3d58c3d8d8a68579ab06",
     "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
-    "src/robustness_analysis.py": "7c07e6c8f822c005dbd464de6e0753bd8ce2548d2f1dd2d0ba303c9519cbf407",
+    "src/robustness_analysis.py": "742b91ef29b016df5003305fe961dc84c0216db15bba9fe3de98efc57bc22aa5",
     "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
-    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af",
+    "results/robustness/reference_120h.json": "2705933b1b6bd66dd5785a2b6a83d9d606a0a99ab79fda45155535899ece1a62",
+    "results/robustness/reference_120h_summary.json": "d9bb5f8604108472719c76c3da0a36493ea39cd94573e053b3a5aba0608c74b5"
   },
-  "check_code_sha256": "c286bb40a847dbe82715700fa95cc93164fab2de5fc68a8c9a3bf37512657042",
+  "check_code_sha256": "0daf8662d1681553f352f6adaa569100b6f40e90f718d3ea84c7775d11397ca1",
   "rows": [
     {
       "problem": 3,
@@ -19,7 +21,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 58.25608839042266,
@@ -31,7 +33,7 @@
       "event_residual": 0.0,
       "nfev": 9846,
       "nlu": 1288,
-      "runtime_s": 2.6681779000064125,
+      "runtime_s": 2.5069035999913467,
       "message": ""
     },
     {
@@ -45,7 +47,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.72223830789115,
@@ -57,7 +59,7 @@
       "event_residual": 0.0,
       "nfev": 9419,
       "nlu": 1254,
-      "runtime_s": 3.9260828999977093,
+      "runtime_s": 3.8863015999959316,
       "message": ""
     },
     {
@@ -71,7 +73,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.39625531948386,
@@ -83,7 +85,7 @@
       "event_residual": 0.0,
       "nfev": 9091,
       "nlu": 1231,
-      "runtime_s": 7.33656609999889,
+      "runtime_s": 7.231892299998435,
       "message": ""
     },
     {
@@ -97,7 +99,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.37928731465436,
@@ -109,7 +111,7 @@
       "event_residual": 0.0,
       "nfev": 9269,
       "nlu": 1252,
-      "runtime_s": 2.4224661000043852,
+      "runtime_s": 2.324870099997497,
       "message": ""
     },
     {
@@ -123,7 +125,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.24503388581388,
@@ -135,7 +137,7 @@
       "event_residual": 0.0,
       "nfev": 8930,
       "nlu": 1193,
-      "runtime_s": 4.086348099997849,
+      "runtime_s": 4.790611300006276,
       "message": ""
     },
     {
@@ -149,7 +151,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.17790333401675,
@@ -161,7 +163,7 @@
       "event_residual": 0.0,
       "nfev": 9458,
       "nlu": 1249,
-      "runtime_s": 8.331593299997621,
+      "runtime_s": 8.409205799995107,
       "message": ""
     },
     {
@@ -175,7 +177,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.495773572607334,
@@ -187,7 +189,7 @@
       "event_residual": 0.0,
       "nfev": 9470,
       "nlu": 1272,
-      "runtime_s": 3.239308800009894,
+      "runtime_s": 3.455921300002956,
       "message": ""
     },
     {
@@ -201,7 +203,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.48100892630317,
@@ -213,7 +215,7 @@
       "event_residual": 0.0,
       "nfev": 8941,
       "nlu": 1205,
-      "runtime_s": 4.642629699999816,
+      "runtime_s": 4.65107039999566,
       "message": ""
     },
     {
@@ -227,7 +229,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.47636581348572,
@@ -239,7 +241,7 @@
       "event_residual": 0.0,
       "nfev": 9067,
       "nlu": 1233,
-      "runtime_s": 7.623458300004131,
+      "runtime_s": 8.469219799997518,
       "message": ""
     },
     {
@@ -253,7 +255,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.134772304330625,
@@ -265,7 +267,7 @@
       "event_residual": 0.0,
       "nfev": 8443,
       "nlu": 1061,
-      "runtime_s": 2.69039150000026,
+      "runtime_s": 3.286851900003967,
       "message": ""
     },
     {
@@ -279,7 +281,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 50.937807045415006,
@@ -291,7 +293,7 @@
       "event_residual": 2.7755575615628914e-17,
       "nfev": 8453,
       "nlu": 1060,
-      "runtime_s": 4.234573800000362,
+      "runtime_s": 4.767854799996712,
       "message": ""
     },
     {
@@ -305,7 +307,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.0,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 50.815931565980605,
@@ -317,7 +319,7 @@
       "event_residual": 0.0,
       "nfev": 8425,
       "nlu": 1077,
-      "runtime_s": 7.675087800002075,
+      "runtime_s": 8.26677610000479,
       "message": ""
     },
     {
@@ -331,7 +333,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 50.83626457464006,
@@ -343,7 +345,7 @@
       "event_residual": 0.0,
       "nfev": 8390,
       "nlu": 1102,
-      "runtime_s": 2.894692700006999,
+      "runtime_s": 2.9166355000052135,
       "message": ""
     },
     {
@@ -357,7 +359,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 50.7990212000078,
@@ -369,7 +371,7 @@
       "event_residual": 0.0,
       "nfev": 8394,
       "nlu": 1146,
-      "runtime_s": 4.185665199998766,
+      "runtime_s": 4.888789700009511,
       "message": ""
     },
     {
@@ -383,7 +385,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.025,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 50.78207740726443,
@@ -395,7 +397,7 @@
       "event_residual": 0.0,
       "nfev": 8376,
       "nlu": 1085,
-      "runtime_s": 7.4166226999950595,
+      "runtime_s": 8.338712900003884,
       "message": ""
     },
     {
@@ -409,7 +411,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.095509745324755,
@@ -421,7 +423,7 @@
       "event_residual": 0.0,
       "nfev": 8341,
       "nlu": 1147,
-      "runtime_s": 2.8477132999978494,
+      "runtime_s": 3.1107621999981347,
       "message": ""
     },
     {
@@ -435,7 +437,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.09333033259515,
@@ -447,7 +449,7 @@
       "event_residual": 0.0,
       "nfev": 8383,
       "nlu": 1187,
-      "runtime_s": 4.38445870000578,
+      "runtime_s": 4.794071999989683,
       "message": ""
     },
     {
@@ -461,7 +463,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.05,
       "boundary_time_scale": 1.0,
-      "horizon_h": 120.0,
+      "horizon_h": 500.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.092748564210666,
@@ -473,7 +475,7 @@
       "event_residual": 2.7755575615628914e-17,
       "nfev": 8496,
       "nlu": 1194,
-      "runtime_s": 7.2989549999911105,
+      "runtime_s": 7.668781000000308,
       "message": ""
     }
   ],

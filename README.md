@@ -309,7 +309,7 @@ python src/check_repository.py --with-intermediate
 
 ## 八、独立鲁棒性压力测试
 
-扩大温度、半径、扩散率、环境含水率和边界时间尺度，区分120小时内未达标、求解异常与非法输入；另有多因素同步不利扰动、641节点临界复核与1281节点低湿度诊断。详见 [鲁棒性分析与失效边界](docs/robustness_analysis.md)。新增图23、24不改动现有四问模型或私人论文。低湿度下发现明显网格依赖，因此不是“全部工况精度均已保证”。
+扩大温度、半径、扩散率、环境含水率和边界时间尺度，当前窗口为500小时，并保留120小时结果逐工况对照；区分窗口内未达标、求解异常与非法输入。另有多因素同步不利扰动、641节点临界复核与1281节点低湿度诊断。详见 [鲁棒性分析与失效边界](docs/robustness_analysis.md)。图23、24不改动现有四问模型或私人论文。低湿度下发现明显网格依赖，因此不是“全部工况精度均已保证”。
 
 ```powershell
 python src/robustness_analysis.py --workers 4
@@ -317,3 +317,5 @@ python src/robustness_low_moisture_check.py
 python src/verify_robustness.py
 python src/plot_robustness.py
 ```
+
+`HMAX=500`以小时计，粗扫最大步长仍为120秒。代码内部变量采用`cfg`、`env0`、`r0`、`res`等简写，CSV/JSON字段保留含义和单位，避免与既有分析接口冲突。

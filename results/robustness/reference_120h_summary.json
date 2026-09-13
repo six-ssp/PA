@@ -2,175 +2,198 @@
   "source_sha256": {
     "src/model.py": "2c22604756e4e6f447ccbc81d7fa0b8456637d5942ab3d58c3d8d8a68579ab06",
     "src/problem_utils.py": "550827dc4ece9fdf5ea2067c8a8b5d4cbc07485f5dfb7ea96141944ee3ead350",
-    "src/robustness_analysis.py": "742b91ef29b016df5003305fe961dc84c0216db15bba9fe3de98efc57bc22aa5",
+    "src/robustness_analysis.py": "7c07e6c8f822c005dbd464de6e0753bd8ce2548d2f1dd2d0ba303c9519cbf407",
     "附件1.xlsx": "7ef32870abeef420b89560b2530ff60dfe4255917805151d89988d0311af9dd7",
-    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af",
-    "results/robustness/reference_120h.json": "2705933b1b6bd66dd5785a2b6a83d9d606a0a99ab79fda45155535899ece1a62",
-    "results/robustness/reference_120h_summary.json": "d9bb5f8604108472719c76c3da0a36493ea39cd94573e053b3a5aba0608c74b5"
+    "附件2.xlsx": "5563acbfa4b4afb10cc6c03e2207e5369bf39da27576672aff14cc5c32e704af"
   },
-  "horizon_h": 500.0,
+  "horizon_h": 120.0,
   "coarse_nodes": 161,
   "coarse_max_step_s": 120,
   "refined_nodes": 321,
   "refined_max_step_s": 60,
   "fine_nodes": 641,
   "coarse_cases": 410,
-  "all_cases": 582,
+  "all_cases": 624,
   "status_counts": {
-    "dry": 427,
-    "deadline_exceeded": 144,
-    "invalid_input": 10,
-    "solver_failure": 1
+    "dry": 321,
+    "deadline_exceeded": 293,
+    "invalid_input": 10
   },
   "coarse_status_counts": {
-    "dry": 322,
-    "deadline_exceeded": 78,
+    "dry": 207,
+    "deadline_exceeded": 193,
     "invalid_input": 10
   },
   "thresholds": [
     {
       "problem": 3,
-      "parameter": "adverse",
+      "parameter": "temperature_c",
       "status": "bracketed",
-      "low": 0.971875,
-      "high": 0.9719726562500001,
-      "low_status": "dry",
-      "high_status": "deadline_exceeded",
-      "fine_641": {
-        "low": 0.971929931640625,
-        "high": 0.9719329833984376,
-        "low_status": "dry",
-        "high_status": "deadline_exceeded"
-      },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.064547336867
-    },
-    {
-      "problem": 3,
-      "parameter": "diffusivity_scale",
-      "status": "bracketed",
-      "low": 0.10628446594886203,
-      "high": 0.10631647239990527,
+      "low": 29.4921875,
+      "high": 29.4970703125,
       "low_status": "deadline_exceeded",
       "high_status": "dry",
       "fine_641": {
-        "low": 0.10617044296702047,
-        "high": 0.10623545607070206,
+        "low": 29.47479248046875,
+        "high": 29.484710693359375,
         "low_status": "deadline_exceeded",
         "high_status": "dry"
       },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.0589193538524
-    },
-    {
-      "problem": 3,
-      "parameter": "moisture",
-      "status": "bracketed",
-      "low": 0.1499990234375,
-      "high": 0.15,
-      "low_status": "dry",
-      "high_status": "deadline_exceeded",
-      "fine_641": {
-        "low": 0.1499999694824219,
-        "high": 0.15,
-        "low_status": "dry",
-        "high_status": "deadline_exceeded"
-      },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "solver_failure",
-      "extension_drying_time_h": null
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.00772899174517
     },
     {
       "problem": 3,
       "parameter": "radius_scale",
       "status": "bracketed",
-      "low": 3.048970974653785,
-      "high": 3.04949359041186,
+      "low": 1.4703947563661441,
+      "high": 1.4706560642451816,
       "low_status": "dry",
       "high_status": "deadline_exceeded",
       "fine_641": {
-        "low": 3.0492322825328224,
-        "high": 3.050293845791412,
+        "low": 1.4705254103056629,
+        "high": 1.4710561919349576,
         "low_status": "dry",
         "high_status": "deadline_exceeded"
       },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.0598103275317
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01057949330965
     },
     {
-      "problem": 4,
-      "parameter": "adverse",
-      "status": "bracketed",
-      "low": 1.0187499999999998,
-      "high": 1.0188476562499997,
-      "low_status": "dry",
-      "high_status": "deadline_exceeded",
-      "fine_641": {
-        "low": 1.0187652587890623,
-        "high": 1.018768310546875,
-        "low_status": "dry",
-        "high_status": "deadline_exceeded"
-      },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.1061184425401
-    },
-    {
-      "problem": 4,
+      "problem": 3,
       "parameter": "diffusivity_scale",
       "status": "bracketed",
-      "low": 0.09210560813670231,
-      "high": 0.09213761458774555,
+      "low": 0.45266163239727375,
+      "high": 0.45284135130641506,
       "low_status": "deadline_exceeded",
       "high_status": "dry",
       "fine_641": {
-        "low": 0.09205659825854234,
-        "high": 0.09212161136222394,
+        "low": 0.4523864378176511,
+        "high": 0.4527514918518444,
         "low_status": "deadline_exceeded",
         "high_status": "dry"
       },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.00814063366107
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.0216262990865
     },
     {
-      "problem": 4,
+      "problem": 3,
       "parameter": "moisture",
       "status": "bracketed",
-      "low": 0.1499990234375,
-      "high": 0.15,
+      "low": 0.1479091796875,
+      "high": 0.14791210937500002,
       "low_status": "dry",
       "high_status": "deadline_exceeded",
       "fine_641": {
-        "low": 0.1499999694824219,
-        "high": 0.15,
+        "low": 0.14791101074218752,
+        "high": 0.14791110229492188,
         "low_status": "dry",
         "high_status": "deadline_exceeded"
       },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "deadline_exceeded",
-      "extension_drying_time_h": null
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01290832038053
+    },
+    {
+      "problem": 3,
+      "parameter": "adverse",
+      "status": "bracketed",
+      "low": 0.3533203125,
+      "high": 0.35341796875,
+      "low_status": "dry",
+      "high_status": "deadline_exceeded",
+      "fine_641": {
+        "low": 0.353399658203125,
+        "high": 0.3534027099609375,
+        "low_status": "dry",
+        "high_status": "deadline_exceeded"
+      },
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01192983262061
+    },
+    {
+      "problem": 4,
+      "parameter": "temperature_c",
+      "status": "bracketed",
+      "low": 26.2353515625,
+      "high": 26.240234375,
+      "low_status": "deadline_exceeded",
+      "high_status": "dry",
+      "fine_641": {
+        "low": 26.236419677734375,
+        "high": 26.236572265625,
+        "low_status": "deadline_exceeded",
+        "high_status": "dry"
+      },
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.0192959131119
     },
     {
       "problem": 4,
       "parameter": "radius_scale",
       "status": "bracketed",
-      "low": 3.2867611445778513,
-      "high": 3.287283760335926,
+      "low": 1.5806666813199417,
+      "high": 1.5809279891989791,
       "low_status": "dry",
       "high_status": "deadline_exceeded",
       "fine_641": {
-        "low": 3.287169438138847,
-        "high": 3.2871857698812867,
+        "low": 1.5808789939716594,
+        "high": 1.5808871598428795,
         "low_status": "dry",
         "high_status": "deadline_exceeded"
       },
-      "extension_horizon_h": 1000.0,
-      "extension_status": "dry",
-      "extension_drying_time_h": 500.09559490900773
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01576243785769
+    },
+    {
+      "problem": 4,
+      "parameter": "diffusivity_scale",
+      "status": "bracketed",
+      "low": 0.39640721600303674,
+      "high": 0.3965344849712688,
+      "low_status": "deadline_exceeded",
+      "high_status": "dry",
+      "fine_641": {
+        "low": 0.39621233539543144,
+        "high": 0.3964708504871528,
+        "low_status": "deadline_exceeded",
+        "high_status": "dry"
+      },
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.0021196885639
+    },
+    {
+      "problem": 4,
+      "parameter": "moisture",
+      "status": "bracketed",
+      "low": 0.1491943359375,
+      "high": 0.1491953125,
+      "low_status": "dry",
+      "high_status": "deadline_exceeded",
+      "fine_641": {
+        "low": 0.14919467163085942,
+        "high": 0.14919470214843752,
+        "low_status": "dry",
+        "high_status": "deadline_exceeded"
+      },
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01501359789815
+    },
+    {
+      "problem": 4,
+      "parameter": "adverse",
+      "status": "bracketed",
+      "low": 0.41279296875000004,
+      "high": 0.41289062500000007,
+      "low_status": "dry",
+      "high_status": "deadline_exceeded",
+      "fine_641": {
+        "low": 0.41282043457031253,
+        "high": 0.41282348632812504,
+        "low_status": "dry",
+        "high_status": "deadline_exceeded"
+      },
+      "extension_240h_status": "dry",
+      "extension_drying_time_h": 120.01839910795874
     }
   ],
   "baseline_checks": [
@@ -185,7 +208,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.49549929022373,
@@ -197,7 +220,7 @@
       "event_residual": 0.0,
       "nfev": 9068,
       "nlu": 1203,
-      "runtime_s": 1.972119099998963,
+      "runtime_s": 2.1651314000046114,
       "message": ""
     },
     {
@@ -211,7 +234,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 30.0,
       "status": "dry",
       "drying_time_h": 57.49549733485249,
@@ -223,7 +246,7 @@
       "event_residual": 0.0,
       "nfev": 15577,
       "nlu": 2108,
-      "runtime_s": 3.845906099988497,
+      "runtime_s": 3.312269300004118,
       "message": ""
     },
     {
@@ -237,7 +260,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 57.48070710905502,
@@ -249,7 +272,7 @@
       "event_residual": 0.0,
       "nfev": 8935,
       "nlu": 1201,
-      "runtime_s": 2.8741235000052257,
+      "runtime_s": 2.8991917000093963,
       "message": ""
     },
     {
@@ -263,7 +286,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.09516234615482,
@@ -275,7 +298,7 @@
       "event_residual": 0.0,
       "nfev": 8341,
       "nlu": 1147,
-      "runtime_s": 1.7831941999902483,
+      "runtime_s": 1.9802066999982344,
       "message": ""
     },
     {
@@ -289,7 +312,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 30.0,
       "status": "dry",
       "drying_time_h": 51.09517974452266,
@@ -301,7 +324,7 @@
       "event_residual": 0.0,
       "nfev": 14457,
       "nlu": 2076,
-      "runtime_s": 3.5760326000017812,
+      "runtime_s": 2.947188799997093,
       "message": ""
     },
     {
@@ -315,7 +338,7 @@
       "diffusivity_scale": 1.0,
       "moisture": 0.04998414634146341,
       "boundary_time_scale": 1.0,
-      "horizon_h": 500.0,
+      "horizon_h": 120.0,
       "max_step_s": 60.0,
       "status": "dry",
       "drying_time_h": 51.092978996406494,
@@ -327,7 +350,7 @@
       "event_residual": 0.0,
       "nfev": 8382,
       "nlu": 1186,
-      "runtime_s": 2.9439598999888403,
+      "runtime_s": 2.8848674000037136,
       "message": ""
     }
   ],
