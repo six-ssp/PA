@@ -1,0 +1,14 @@
+{
+  "data_sha256": {
+    "coarse.json": "2705933b1b6bd66dd5785a2b6a83d9d606a0a99ab79fda45155535899ece1a62",
+    "summary.json": "d9bb5f8604108472719c76c3da0a36493ea39cd94573e053b3a5aba0608c74b5",
+    "all_cases.csv": "3128989e37d75b06adbd756d54592b35c52b67171568cf0488fb05f42ccaeba7",
+    "low_moisture_grid.json": "84119d446b1ff47c589c0f372c1b87b442a864c528d21d0a7d41837e61f6fd43"
+  },
+  "plot_code_sha256": "057d59a5664cfb51033c88d6a049bcd39262e25688a8aee3ae0f71ca9bb2a3db",
+  "figures": [
+    "23_robustness_feasibility_map",
+    "24_robustness_stress_curves"
+  ],
+  "notes": "Only real solves are colored. Gray cells and top triangles denote censoring at 120 h, not solver failure."
+}

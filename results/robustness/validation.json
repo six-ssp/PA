@@ -1,0 +1,84 @@
+{
+  "checks": "PASS_WITH_WARNINGS",
+  "monotonicity_warnings": [
+    {
+      "problem": 3,
+      "parameter": "moisture",
+      "action": "Requires separate grid/closure investigation; do not silently impose monotonicity."
+    },
+    {
+      "problem": 4,
+      "parameter": "moisture",
+      "action": "Requires separate grid/closure investigation; do not silently impose monotonicity."
+    }
+  ],
+  "coarse_cases": 410,
+  "all_cases": 624,
+  "status_counts": {
+    "dry": 321,
+    "deadline_exceeded": 293,
+    "invalid_input": 10
+  },
+  "thresholds_checked": 10,
+  "baseline_641_error_s": {
+    "3": 0.0,
+    "4": 0.0
+  },
+  "baseline_step_halving_difference_s": {
+    "3": 0.007039336460934464,
+    "4": 0.06263412421674275
+  },
+  "low_moisture_grid_check_cases": 18,
+  "low_moisture_grid_differences": [
+    {
+      "problem": 3,
+      "moisture": 0.0,
+      "time_321_h": 58.25608839042266,
+      "time_641_h": 57.72223830789115,
+      "time_1281_h": 57.39625531948386,
+      "difference_641_to_1281_s": 1173.538758266244
+    },
+    {
+      "problem": 3,
+      "moisture": 0.025,
+      "time_321_h": 57.37928731465436,
+      "time_641_h": 57.24503388581388,
+      "time_1281_h": 57.17790333401675,
+      "difference_641_to_1281_s": 241.66998646968523
+    },
+    {
+      "problem": 3,
+      "moisture": 0.05,
+      "time_321_h": 57.495773572607334,
+      "time_641_h": 57.48100892630317,
+      "time_1281_h": 57.47636581348572,
+      "difference_641_to_1281_s": 16.715206142811212
+    },
+    {
+      "problem": 4,
+      "moisture": 0.0,
+      "time_321_h": 51.134772304330625,
+      "time_641_h": 50.937807045415006,
+      "time_1281_h": 50.815931565980605,
+      "difference_641_to_1281_s": 438.7517259638429
+    },
+    {
+      "problem": 4,
+      "moisture": 0.025,
+      "time_321_h": 50.83626457464006,
+      "time_641_h": 50.7990212000078,
+      "time_1281_h": 50.78207740726443,
+      "difference_641_to_1281_s": 60.997653876128766
+    },
+    {
+      "problem": 4,
+      "moisture": 0.05,
+      "time_321_h": 51.095509745324755,
+      "time_641_h": 51.09333033259515,
+      "time_1281_h": 51.092748564210666,
+      "difference_641_to_1281_s": 2.094366184147134
+    }
+  ],
+  "q4_successful_coarse_cases_using_radius_hold_after_72h": 27,
+  "warning": "Finite-domain solver checks do not prove empirical validity or global robustness."
+}
